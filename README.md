@@ -1,1 +1,1 @@
-# DenisLibrary
+Web project impl Servlet + JSP + JDBC
