@@ -23,13 +23,13 @@ public class AuthenticateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookDaoImpl bookDao = new BookDaoImpl();
         AuthenticateDaoImpl authenticateDao = new AuthenticateDaoImpl();
-        Users_rolesDaoImpl users_rolesDao = new Users_rolesDaoImpl();
+        UsersRolesDaoImpl users_rolesDao = new UsersRolesDaoImpl();
         RoleDaoImpl roleDao = new RoleDaoImpl();
         UserDaoImpl userDao = new UserDaoImpl();
         Authenticate aut;
         Role role;
         User user;
-        Users_roles users_roles;
+        UsersRoles users_roles;
         List<Authenticate> authenticateList = authenticateDao.getAll();
         String login = request.getParameter(LOGIN_KEY);
         String password = request.getParameter(PASSWORD_KEY);

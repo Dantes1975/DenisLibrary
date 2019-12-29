@@ -1,13 +1,12 @@
 package controller;
 
 import bean.Authenticate;
-import bean.Role;
 import bean.User;
-import bean.Users_roles;
+import bean.UsersRoles;
 import repository.daoImpl.AuthenticateDaoImpl;
 import repository.daoImpl.RoleDaoImpl;
 import repository.daoImpl.UserDaoImpl;
-import repository.daoImpl.Users_rolesDaoImpl;
+import repository.daoImpl.UsersRolesDaoImpl;
 
 
 import javax.servlet.ServletException;
@@ -28,7 +27,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, RuntimeException {
         UserDaoImpl userDao = new UserDaoImpl();
         AuthenticateDaoImpl authDao = new AuthenticateDaoImpl();
-        Users_rolesDaoImpl user_role = new Users_rolesDaoImpl();
+        UsersRolesDaoImpl user_role = new UsersRolesDaoImpl();
         RoleDaoImpl roleDao = new RoleDaoImpl();
 
         String login = request.getParameter(LOGIN_KEY);
@@ -41,7 +40,7 @@ public class LoginServlet extends HttpServlet {
         int age = Integer.parseInt(request.getParameter(AGE_KEY));
         HttpSession session = request.getSession();
         Authenticate auth = new Authenticate();
-        Users_roles usrl = new Users_roles();
+        UsersRoles usrl = new UsersRoles();
         User user = new User();
         //Role role;
 
@@ -63,6 +62,7 @@ public class LoginServlet extends HttpServlet {
             if (!authDao.isExistByLogin(login)) {
                 auth.setLogin(login);
                 auth.setPassword(password);
+                auth.setProfile_enable("ON");
                 authDao.insert(auth);
             } else {
                 response.setContentType("text/html");

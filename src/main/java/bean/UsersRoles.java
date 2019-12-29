@@ -3,12 +3,19 @@ package bean;
 
 import lombok.*;
 
+import javax.persistence.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users_roles {
+@Entity
+public class UsersRoles {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private long user_id;
+    @Column
     private long role_id;
 
 

@@ -1,10 +1,9 @@
 package controller;
 
 import bean.Message;
-import bean.Role;
 import repository.daoImpl.MessageDaoImpl;
 import repository.daoImpl.RoleDaoImpl;
-import repository.daoImpl.Users_rolesDaoImpl;
+import repository.daoImpl.UsersRolesDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +24,7 @@ public class MessageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MessageDaoImpl messageDao = new MessageDaoImpl();
         RoleDaoImpl roleDao = new RoleDaoImpl();
-        Users_rolesDaoImpl users_rolesDao = new Users_rolesDaoImpl();
+        UsersRolesDaoImpl users_rolesDao = new UsersRolesDaoImpl();
         long sender = Long.parseLong(request.getParameter(SENDER_KEY));
         long recipient = Long.parseLong(request.getParameter(RECIPIENT_KEY));
         long id = Long.parseLong(request.getParameter(ID_KEY));

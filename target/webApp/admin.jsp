@@ -119,27 +119,6 @@
 </table>
 <br>
 <br>
-<%--<p> Messages </p>--%>
-<%--<table>--%>
-<%--    <tr>--%>
-<%--        <th> From</th>--%>
-<%--        <th> Text</th>--%>
-<%--        <th> Delete</th>--%>
-<%--    </tr>--%>
-<%--    <c:forEach items="${sessionScope.messages}" var="message">--%>
-<%--        <tr>--%>
-<%--            <td> ${message.sender} </td>--%>
-<%--            <td> ${message.text} </td>--%>
-<%--            <td>--%>
-<%--                <form action="delete" method="post">--%>
-<%--                    <input type="hidden" name="id" value="${message.id}"/>--%>
-<%--                    <input type="hidden" name="sender" value="${sessionScope.authenticate.id}"/>--%>
-<%--                    <input type="submit" name="action" value="delete"/>--%>
-<%--                </form>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
-<%--</table>--%>
 
 </body>
 </html>

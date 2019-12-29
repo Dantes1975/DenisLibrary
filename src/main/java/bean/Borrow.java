@@ -2,14 +2,21 @@ package bean;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Borrow {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
     private Book book;
     private long user;
     private Date borrowDate;

@@ -23,7 +23,7 @@ public class OperationWhithUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDaoImpl userDao = new UserDaoImpl();
         AuthenticateDaoImpl authDao = new AuthenticateDaoImpl();
-        Users_rolesDaoImpl user_role = new Users_rolesDaoImpl();
+        UsersRolesDaoImpl user_role = new UsersRolesDaoImpl();
         BorrowDaoImpl borrowDao = new BorrowDaoImpl();
         BookDaoImpl bookDao = new BookDaoImpl();
         MessageDaoImpl messageDao = new MessageDaoImpl();

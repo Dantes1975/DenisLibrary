@@ -2,22 +2,23 @@ package bean;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Authenticate {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private String login;
+    @Column
     private String password;
+    @Column
     private String profile_enable;
-
-    public Authenticate(long id, String login, String password) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-    }
 
     @Override
     public String toString() {

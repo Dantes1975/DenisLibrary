@@ -5,7 +5,6 @@ import java.util.List;
 public interface CrudDao<T> {
     T getById(long id);
 
-    T getByIdInsert(long id);
 
     T insert(T t);
 

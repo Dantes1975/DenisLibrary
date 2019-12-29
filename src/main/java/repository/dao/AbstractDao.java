@@ -1,8 +1,12 @@
 package repository.dao;
 
+import org.hibernate.LazyInitializationException;
 import repository.dao.CrudDao;
 import repository.database.DataBaseConnector;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import java.lang.reflect.ParameterizedType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +16,15 @@ import java.util.List;
 
 public abstract class AbstractDao<T> implements CrudDao<T> {
     private DataBaseConnector dataBaseConnector = DataBaseConnector.getInstance();
+
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
+
+    private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+    protected EntityManager getEntityManager() {
+        return ENTITY_MANAGER_FACTORY.createEntityManager();
+    }
+
 
     protected abstract String getAllSqlQuery();
 
@@ -27,87 +40,66 @@ public abstract class AbstractDao<T> implements CrudDao<T> {
 
 
     @Override
-    public T getById(long id) {
-        T t = null;
-        try (Connection cn = dataBaseConnector.getConnection();
-             Statement st = cn.createStatement();
-             ResultSet rs = st.executeQuery(getByIdSqlQuery(id))) {
-            while (rs.next()) {
-                t = resultSetMapper(rs);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return t;
-    }
-
-    @Override
-    public T getByIdInsert(long id) {
-        T t = null;
-        try (Connection cn = dataBaseConnector.getConnection();
-             Statement st = cn.createStatement()) {
-            ResultSet rs = st.executeQuery(getByIdSqlQuery(id));
-            t = resultSetMapper(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public T getById(long id) throws LazyInitializationException {
+        EntityManager em = getEntityManager();
+        T t = em.find(clazz, id);
+        em.close();
         return t;
     }
 
 
     @Override
     public T insert(T t) {
-
-        try (Connection cn = dataBaseConnector.getConnection();
-             Statement st = cn.createStatement();) {
-            st.executeUpdate(getInsertQuery(t), Statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = st.getGeneratedKeys();
-            while (rs.next()) {
-                return getByIdInsert(rs.getLong(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.persist(t);
+        em.getTransaction().commit();
+        em.close();
+        return t;
     }
 
     @Override
     public T update(T t) {
-        try (Connection cn = dataBaseConnector.getConnection();
-             Statement st = cn.createStatement()) {
-            st.executeUpdate(getUpdateQuery(t));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        t = em.merge(t);
+        em.getTransaction().commit();
+        em.close();
         return t;
     }
 
     @Override
     public void delete(long id) {
-        try (Connection cn = dataBaseConnector.getConnection();
-             Statement st = cn.createStatement()) {
-            st.executeUpdate(getDeleteQuery(id));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        EntityManager em = getEntityManager();
+        T t = em.find(clazz, id);
+        em.getTransaction().begin();
+        em.remove(t);
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public List<T> getAll() {
-        List<T> list = new ArrayList<>();
-        try (Connection cn = dataBaseConnector.getConnection();
-             Statement st = cn.createStatement();
-             ResultSet rs = st.executeQuery(getAllSqlQuery())) {
-            while (rs.next()) {
-                list.add(resultSetMapper(rs));
-            }
-            return list;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        EntityManager em = getEntityManager();
+        List<T> list = em.createQuery(String.format("select t from %s t", clazz.getName()), clazz)
+                .getResultList();
+        em.close();
+        return list;
     }
+
+    protected T getSingleResultByQuery(String query) {
+        EntityManager em = getEntityManager();
+        T t = em.createQuery(query, clazz).getSingleResult();
+        em.close();
+        return t;
+    }
+
+    public List<T> getResultListByQuery(String query) {
+        EntityManager em = getEntityManager();
+        List<T> t = em.createQuery(query, clazz).getResultList();
+        em.close();
+        return t;
+    }
+
 
 }
