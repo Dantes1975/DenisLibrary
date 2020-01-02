@@ -28,7 +28,6 @@ public class LoginServlet extends HttpServlet {
         UserDaoImpl userDao = new UserDaoImpl();
         AuthenticateDaoImpl authDao = new AuthenticateDaoImpl();
         UsersRolesDaoImpl user_role = new UsersRolesDaoImpl();
-        RoleDaoImpl roleDao = new RoleDaoImpl();
 
         String login = request.getParameter(LOGIN_KEY);
         String password = request.getParameter(PASSWORD_KEY);
@@ -42,8 +41,6 @@ public class LoginServlet extends HttpServlet {
         Authenticate auth = new Authenticate();
         UsersRoles usrl = new UsersRoles();
         User user = new User();
-        //Role role;
-
 
         if (login == null || login.isEmpty()) {
             throw new RuntimeException("Invalid User Login");
@@ -89,22 +86,15 @@ public class LoginServlet extends HttpServlet {
             }
 
             user_role.insert(usrl);
- //           role = roleDao.getById(usrl.getRole_id());
-//            session.setAttribute(AUTHENTICATE_KEY, auth);
-//            session.setAttribute(USER_ROLE, user);
-//            session.setAttribute(ROLE_KEY, role);
-
         }
 
         session.setAttribute(AUTHENT_KEY, authDao.getAll());
         if (action.toLowerCase().equals(LOGIN_KEY)) {
-//            if (role.getRole().toLowerCase().equals(USER_ROLE)) {
-//                getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
-//            } else if (role.getRole().toLowerCase().equals(ADMIN_ROLE)) {
-                getServletContext().getRequestDispatcher(START_JSP).forward(request, response);
-         //   }
-        } else if(action.toLowerCase().equals(ADD_KEY)){
+            getServletContext().getRequestDispatcher(START_JSP).forward(request, response);
+            return;
+        } else if (action.toLowerCase().equals(ADD_KEY)) {
             getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
+            return;
         }
     }
 

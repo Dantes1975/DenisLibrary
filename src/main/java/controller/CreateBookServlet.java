@@ -43,16 +43,17 @@ public class CreateBookServlet extends HttpServlet {
         Author author = new Author();
         author.setName(authorname);
         author.setSurname(authorsurame);
-        author = authorDao.insert(author);
+       // author = authorDao.insert(author);
 
         Genre genre = new Genre();
         genre.setGenrename(genrename);
-        genre = genreDao.insert(genre);
+        //genre = genreDao.insert(genre);
 
         Book book = new Book();
         book.setBookname(bookname);
         book.setAuthor(author);
         book.setGenre(genre);
+        book.setStock(5);
         book = bookDao.insert(book);
 
         Bookimage bookimage = new Bookimage();

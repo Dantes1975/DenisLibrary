@@ -51,10 +51,10 @@ public class OperationWhithUserServlet extends HttpServlet {
                 message.setText("Block for borrow");
                 messageDao.insert(message);
                 borrowDao.deleteUserById(id);
-                List<Long> bookId = borrowDao.getBooksIdByUserId(id);
-                for (Long bookid : bookId) {
-                    bookDao.returnBook(bookid);
-                }
+//                List<Long> bookId = borrowDao.getBooksIdByUserId(id);
+//                for (Long bookid : bookId) {
+//                    bookDao.returnBook(bookid);
+//                }
                 authDao.authOff(id);
                 session.setAttribute(AUTHENT_KEY, authDao.getAll());
                 session.setAttribute(MESSAGE_KEY, message);
@@ -63,7 +63,6 @@ public class OperationWhithUserServlet extends HttpServlet {
         session.setAttribute(USERS_KEY, userDao.getAll());
         session.setAttribute(AUTHENT_KEY, authDao.getAll());
         getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
-
-
+        return;
     }
 }

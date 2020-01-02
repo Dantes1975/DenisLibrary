@@ -71,15 +71,19 @@ public class AuthenticateServlet extends HttpServlet {
 
                         if (role.getRole().toLowerCase().equals(USER_ROLE)) {
                             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
+                            //return;
                         } else if (role.getRole().toLowerCase().equals(ADMIN_ROLE)) {
                             getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
+                           // return;
                         }
 
                     } else {
                         getServletContext().getRequestDispatcher(LOGIN_JSP).forward(request, response);
+                        return;
                     }
                 } else {
                     getServletContext().getRequestDispatcher(LOGIN_JSP).forward(request, response);
+                   // return;
                 }
 
             }
@@ -88,6 +92,7 @@ public class AuthenticateServlet extends HttpServlet {
             List<Book> books = bookDao.getAll();
             session.setAttribute(LISTBOOKS_KEY, books);
             request.getRequestDispatcher(LIST_JSP).forward(request, response);
+          // return;
         }
     }
 }

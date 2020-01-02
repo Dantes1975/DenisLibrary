@@ -51,13 +51,14 @@ public class MessageServlet extends HttpServlet {
         } else if (action.toLowerCase().equals(MESSAGES_KEY)) {
             List<Message> mymessages = messageDao.getMyMessages(recipient);
             session.setAttribute(MYMESSAGES_KEY, mymessages);
-
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
+            return;
         } else if (action.toLowerCase().equals(DELETE_KEY)) {
             messageDao.delete(id);
             List<Message> mymessages = messageDao.getMyMessages(recipient);
             session.setAttribute(MYMESSAGES_KEY, mymessages);
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
+            return;
         }
 
 

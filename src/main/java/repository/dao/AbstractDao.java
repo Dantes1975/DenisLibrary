@@ -1,42 +1,20 @@
 package repository.dao;
 
 import org.hibernate.LazyInitializationException;
-import repository.dao.CrudDao;
-import repository.database.DataBaseConnector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.lang.reflect.ParameterizedType;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractDao<T> implements CrudDao<T> {
-    private DataBaseConnector dataBaseConnector = DataBaseConnector.getInstance();
 
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
-
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     protected EntityManager getEntityManager() {
         return ENTITY_MANAGER_FACTORY.createEntityManager();
     }
-
-
-    protected abstract String getAllSqlQuery();
-
-    protected abstract String getByIdSqlQuery(long id);
-
-    protected abstract String getInsertQuery(T t);
-
-    protected abstract String getUpdateQuery(T t);
-
-    protected abstract String getDeleteQuery(long id);
-
-    protected abstract T resultSetMapper(ResultSet k) throws SQLException;
 
 
     @Override
