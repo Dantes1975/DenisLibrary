@@ -38,12 +38,12 @@ public class OperationWhitsBooksServlet extends HttpServlet {
             List<Book> books = bookDao.getAll();
             session.setAttribute(LISTBOOKS_KEY, books);
             getServletContext().getRequestDispatcher(LIST_JSP).forward(request, response);
-            return;
+            //return;
         } else if (action.toLowerCase().equals(BOOKS_KEY)) {
             List<Book> books = bookDao.getAll();
             session.setAttribute(LISTBOOKS_KEY, books);
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
-            return;
+            //return;
         } else if (action.toLowerCase().equals(TAKE_KEY)) {
             LocalDate borrowdate = LocalDate.now();
             LocalDate returndate = borrowdate.plusDays(days);
@@ -59,11 +59,11 @@ public class OperationWhitsBooksServlet extends HttpServlet {
             session.setAttribute(LISTBOOKS_KEY, books);
             session.setAttribute(BORROWS_KEY, borrows);
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
-            return;
+           // return;
         } else if ((action.toLowerCase().equals(BORROWS_KEY))) {
             List<Borrow> borrows = borrowDao.getBooksByUserId(userid);
             session.setAttribute(BORROWS_KEY, borrows);
-            getServletContext().getRequestDispatcher(BORROWS_JSP).forward(request, response);
+            getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
             return;
         } else if ((action.toLowerCase().equals(RETURN_KEY))) {
             borrowDao.delete(bookid);
@@ -73,7 +73,7 @@ public class OperationWhitsBooksServlet extends HttpServlet {
             session.setAttribute(LISTBOOKS_KEY, books);
             session.setAttribute(BORROWS_KEY, borrows);
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
-            return;
+           // return;
         }
     }
 

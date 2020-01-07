@@ -79,7 +79,7 @@ public class AuthenticateServlet extends HttpServlet {
 
                     } else {
                         getServletContext().getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                        return;
+                        //return;
                     }
                 } else {
                     getServletContext().getRequestDispatcher(LOGIN_JSP).forward(request, response);

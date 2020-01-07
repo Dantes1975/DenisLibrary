@@ -38,6 +38,8 @@ public class UpdateServlet extends HttpServlet {
         userDao.update(user);
         authDao.update(auth);
         session.setAttribute(AUTHENTICATE_KEY, auth);
+        session.setAttribute(USER_ROLE, user);
+
         getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
     }
 

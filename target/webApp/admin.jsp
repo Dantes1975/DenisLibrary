@@ -34,6 +34,7 @@
     <input type="hidden" name="sender" value="${sessionScope.user.id}">
     Введите адресата (admin 1 or 2) <input type="text" name="recipient">
     Введите текст <input type="text" name="text">
+    <input type="hidden" name="id" value="0">
     <button type="submit" name="action" value="send">SEND</button>
 </form>
 
