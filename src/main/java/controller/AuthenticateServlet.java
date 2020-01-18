@@ -26,6 +26,7 @@ public class AuthenticateServlet extends HttpServlet {
         UsersRolesDaoImpl users_rolesDao = new UsersRolesDaoImpl();
         RoleDaoImpl roleDao = new RoleDaoImpl();
         UserDaoImpl userDao = new UserDaoImpl();
+        BorrowDaoImpl borrowDao = new BorrowDaoImpl();
         Authenticate aut;
         Role role;
         User user;
@@ -70,20 +71,24 @@ public class AuthenticateServlet extends HttpServlet {
                         session.setAttribute(AUTHENT_KEY, authenticateList);
 
                         if (role.getRole().toLowerCase().equals(USER_ROLE)) {
+                            List<Borrow> borrows = borrowDao.getAll();
+                            List<Book> books = bookDao.getAll();
+                            session.setAttribute(LISTBOOKS_KEY, books);
+                            session.setAttribute(BORROWS_KEY, borrows);
                             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
-                            //return;
+                            return;
                         } else if (role.getRole().toLowerCase().equals(ADMIN_ROLE)) {
                             getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
-                           // return;
+                            return;
                         }
 
                     } else {
                         getServletContext().getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                        //return;
+                        return;
                     }
                 } else {
                     getServletContext().getRequestDispatcher(LOGIN_JSP).forward(request, response);
-                   // return;
+                    return;
                 }
 
             }
@@ -92,7 +97,7 @@ public class AuthenticateServlet extends HttpServlet {
             List<Book> books = bookDao.getAll();
             session.setAttribute(LISTBOOKS_KEY, books);
             request.getRequestDispatcher(LIST_JSP).forward(request, response);
-          // return;
+            return;
         }
     }
 }

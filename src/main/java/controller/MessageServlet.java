@@ -52,13 +52,13 @@ public class MessageServlet extends HttpServlet {
             List<Message> mymessages = messageDao.getMyMessages(recipient);
             session.setAttribute(MYMESSAGES_KEY, mymessages);
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
-            //return;
+            return;
         } else if (action.toLowerCase().equals(DELETE_KEY)) {
             messageDao.delete(id);
             List<Message> mymessages = messageDao.getMyMessages(recipient);
             session.setAttribute(MYMESSAGES_KEY, mymessages);
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
-            //return;
+            return;
         }
 
 

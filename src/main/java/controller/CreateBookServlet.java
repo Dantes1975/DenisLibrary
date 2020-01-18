@@ -28,8 +28,6 @@ public class CreateBookServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookDaoImpl bookDao = new BookDaoImpl();
-        AuthorDaoImpl authorDao = new AuthorDaoImpl();
-        GenreDaoImpl genreDao = new GenreDaoImpl();
         BookimageDaoImpl bookimageDao = new BookimageDaoImpl();
 
         String bookname = request.getParameter(BOOKNAME_KEY);
@@ -43,11 +41,9 @@ public class CreateBookServlet extends HttpServlet {
         Author author = new Author();
         author.setName(authorname);
         author.setSurname(authorsurame);
-       // author = authorDao.insert(author);
 
         Genre genre = new Genre();
         genre.setGenrename(genrename);
-        //genre = genreDao.insert(genre);
 
         Book book = new Book();
         book.setBookname(bookname);
@@ -63,13 +59,8 @@ public class CreateBookServlet extends HttpServlet {
 
         List<Book> books = bookDao.getAll();
         session.setAttribute(LISTBOOKS_KEY, books);
-        PrintWriter writer = response.getWriter();
-        try {
-            writer.println("<h2> Book create successfully </h2>");
-        } finally {
-            writer.close();
-        }
-
+        getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
+        return;
     }
 
 

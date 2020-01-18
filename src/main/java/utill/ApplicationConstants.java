@@ -50,5 +50,5 @@ public interface ApplicationConstants {
     String START_JSP = "/start.jsp";
     String ADMIN_JSP = "/admin.jsp";
     String LOGIN_JSP = "/login.jsp";
-
+    String DESCRIPTION_JSP = "/description.jsp";
 }

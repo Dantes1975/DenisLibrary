@@ -91,10 +91,10 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute(AUTHENT_KEY, authDao.getAll());
         if (action.toLowerCase().equals(LOGIN_KEY)) {
             getServletContext().getRequestDispatcher(START_JSP).forward(request, response);
-            //return;
+            return;
         } else if (action.toLowerCase().equals(ADD_KEY)) {
             getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
-            //return;
+            return;
         }
     }
 

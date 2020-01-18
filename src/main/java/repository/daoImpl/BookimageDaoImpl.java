@@ -1,18 +1,19 @@
 package repository.daoImpl;
 
-import bean.Authenticate;
 import bean.Bookimage;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
+
 import repository.dao.AbstractDao;
 import repository.dao.BookimageDao;
-import repository.database.DataBaseConnector;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.io.*;
+
 
 public class BookimageDaoImpl extends AbstractDao<Bookimage> implements BookimageDao {
 
+    private final String SELECT_IMAGE = "select b from Bookimage b where b.bookId=:bookId";
 
     @Override
     public Bookimage insert(Bookimage bookimage) {
@@ -35,17 +36,16 @@ public class BookimageDaoImpl extends AbstractDao<Bookimage> implements Bookimag
         return bookimage;
     }
 
-//    @Override
-//    public Bookimage getById(long id) {
-//        Bookimage bookimage = null;
-//        EntityManager em = getEntityManager();
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<Bookimage> criteria = cb.createQuery(Bookimage.class);
-//        Root<Bookimage> root = criteria.from(Bookimage.class);
-//        Predicate expression = cb.equal(root.get("id"), id);
-//        criteria.select(root).where(expression);
-//        bookimage = em.createQuery(criteria).getSingleResult();
-//        return bookimage;
-//    }
+    @Override
+    public Bookimage getById(long id) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        Query query = em.createQuery(SELECT_IMAGE);
+        query.setParameter("bookId", id);
+        Bookimage bookimage = (Bookimage) query.getSingleResult();
+        em.getTransaction().commit();
+        em.close();
+        return bookimage;
+    }
 
 }

@@ -17,8 +17,14 @@ public class DescriptionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookimageDaoImpl bookimageDao = new BookimageDaoImpl();
         long bookid = Long.parseLong(request.getParameter(BOOKID_KEY));
-        Bookimage bookimage = bookimageDao.getById(bookid);
-       response.getOutputStream().write(bookimage.getBookimage());
+
+        if (bookid<=3) {
+            getServletContext().getRequestDispatcher(DESCRIPTION_JSP).forward(request, response);
+            return;
+        } else {
+            Bookimage bookimage = bookimageDao.getById(bookid);
+            response.getOutputStream().write(bookimage.getBookimage());
+        }
 
     }
 

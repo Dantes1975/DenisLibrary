@@ -63,6 +63,6 @@ public class OperationWhithUserServlet extends HttpServlet {
         session.setAttribute(USERS_KEY, userDao.getAll());
         session.setAttribute(AUTHENT_KEY, authDao.getAll());
         getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
-       // return;
+        return;
     }
 }
