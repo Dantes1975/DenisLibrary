@@ -5,43 +5,46 @@ import repository.dao.AbstractDao;
 import repository.dao.BorrowDao;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.Query;
 import java.util.List;
 
 public class BorrowDaoImpl extends AbstractDao<Borrow> implements BorrowDao {
 
+    private final String DELETE_BY_BOOK_ID = "delete from Borrow b where b.book.id=:bookId";
+    private final String DELETE_BY_USER_ID = "delete from Borrow b where b.user=:userId";
+    private final String SELECT_BORROWS_BY_USER_ID = "select b from Borrow b where b.user=:userId";
+    private final String SELECT_BOOKID_BY_USER_ID = "select b.book.id from Borrow b where b.user=:userId";
 
-    public List<Borrow> getBooksByUserId(Long id) {
+    public List<Borrow> getBorrowsByUserId(long id) {
         EntityManager em = getEntityManager();
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Borrow> criteria = cb.createQuery(Borrow.class);
-        Root<Borrow> root = criteria.from(Borrow.class);
-        criteria.select(root).where(cb.equal(root.get("user"), id));
-        List<Borrow> list = em.createQuery(criteria).getResultList();
+        Query query = em.createQuery(SELECT_BORROWS_BY_USER_ID);
+        List<Borrow> list = query.setParameter("userId", id).getResultList();
+        em.close();
         return list;
     }
 
-//    public List<Long> getBooksIdByUserId(Long id) {
-////        EntityManager em = getEntityManager();
-////        CriteriaBuilder cb = em.getCriteriaBuilder();
-////        CriteriaQuery<Borrow> criteria = cb.createQuery(Borrow.class);
-////        Root<Borrow> root = criteria.from(Borrow.class);
-////        criteria.select(root).where(cb.equal(root.get("user"), id));
-////        List<Long> list = em.createQuery(criteria).getResultList();
-////        return list;
-////    }
+    public List<Long> getBooksIdByUserId(long id) {
+        EntityManager em = getEntityManager();
+        Query query = em.createQuery(SELECT_BOOKID_BY_USER_ID);
+        List<Long> list = query.setParameter("userId", id).getResultList();
+        em.close();
+        return list;
+    }
 
-    public void deleteUserById(long id) {
+    public void deleteByUserId(long id) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaDelete<Borrow> delete = cb.createCriteriaDelete(Borrow.class);
-        Root<Borrow> root = delete.from(Borrow.class);
-        delete.where(cb.equal(root.get("user"), id));
-        em.createQuery(delete).executeUpdate();
+        Query query = em.createQuery(DELETE_BY_USER_ID);
+        query.setParameter("userId", id).executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void deleteByBookId(long id) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        Query query = em.createQuery(DELETE_BY_BOOK_ID);
+        query.setParameter("bookId", id).executeUpdate();
         em.getTransaction().commit();
         em.close();
     }

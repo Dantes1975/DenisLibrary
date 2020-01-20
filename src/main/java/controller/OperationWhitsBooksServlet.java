@@ -61,14 +61,14 @@ public class OperationWhitsBooksServlet extends HttpServlet {
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
             return;
         } else if ((action.toLowerCase().equals(BORROWS_KEY))) {
-            List<Borrow> borrows = borrowDao.getBooksByUserId(userid);
+            List<Borrow> borrows = borrowDao.getBorrowsByUserId(userid);
             session.setAttribute(BORROWS_KEY, borrows);
             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
             return;
         } else if ((action.toLowerCase().equals(RETURN_KEY))) {
-            borrowDao.delete(bookid);
+            borrowDao.deleteByBookId(bookid);
             bookDao.returnBook(bookid);
-            List<Borrow> borrows = borrowDao.getBooksByUserId(userid);
+            List<Borrow> borrows = borrowDao.getBorrowsByUserId(userid);
             List<Book> books = bookDao.getAll();
             session.setAttribute(LISTBOOKS_KEY, books);
             session.setAttribute(BORROWS_KEY, borrows);

@@ -16,7 +16,6 @@ public class Borrow {
     private long id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
     private Book book;
     private long user;
     private Date borrowDate;
