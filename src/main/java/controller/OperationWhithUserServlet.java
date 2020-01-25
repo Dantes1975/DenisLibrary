@@ -19,14 +19,14 @@ import static utill.ApplicationConstants.*;
 @WebServlet(name = "DeleteServlet", urlPatterns = {"/delete", "/on", "/off"})
 public class OperationWhithUserServlet extends HttpServlet {
 
+    UserDaoImpl userDao = new UserDaoImpl();
+    AuthenticateDaoImpl authDao = new AuthenticateDaoImpl();
+    BorrowDaoImpl borrowDao = new BorrowDaoImpl();
+    BookDaoImpl bookDao = new BookDaoImpl();
+    MessageDaoImpl messageDao = new MessageDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserDaoImpl userDao = new UserDaoImpl();
-        AuthenticateDaoImpl authDao = new AuthenticateDaoImpl();
-        UsersRolesDaoImpl user_role = new UsersRolesDaoImpl();
-        BorrowDaoImpl borrowDao = new BorrowDaoImpl();
-        BookDaoImpl bookDao = new BookDaoImpl();
-        MessageDaoImpl messageDao = new MessageDaoImpl();
+
         String action = request.getParameter(ACTION_KEY);
         String type = request.getParameter(TYPE_KEY);
         long id = Long.parseLong(request.getParameter(ID_KEY));
@@ -36,7 +36,6 @@ public class OperationWhithUserServlet extends HttpServlet {
         if (action.toLowerCase().equals(DELETE_KEY)) {
             userDao.delete(id);
             authDao.delete(id);
-            user_role.delete(id);
         } else if (action.toLowerCase().equals(ON_KEY)) {
             authDao.authOn(id);
             session.setAttribute(AUTHENT_KEY, authDao.getAll());

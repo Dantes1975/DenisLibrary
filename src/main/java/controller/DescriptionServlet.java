@@ -14,11 +14,13 @@ import static utill.ApplicationConstants.*;
 
 @WebServlet(name = "DescriptionServlet", urlPatterns = "/description")
 public class DescriptionServlet extends HttpServlet {
+    BookimageDaoImpl bookimageDao = new BookimageDaoImpl();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookimageDaoImpl bookimageDao = new BookimageDaoImpl();
+
         long bookid = Long.parseLong(request.getParameter(BOOKID_KEY));
 
-        if (bookid<=3) {
+        if (bookid <= 3) {
             getServletContext().getRequestDispatcher(DESCRIPTION_JSP).forward(request, response);
             return;
         } else {

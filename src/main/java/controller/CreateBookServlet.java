@@ -24,11 +24,11 @@ import static utill.ApplicationConstants.*;
 
 @WebServlet(name = "CreateBookServlet", urlPatterns = "/create")
 public class CreateBookServlet extends HttpServlet {
-
+    BookDaoImpl bookDao = new BookDaoImpl();
+    BookimageDaoImpl bookimageDao = new BookimageDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookDaoImpl bookDao = new BookDaoImpl();
-        BookimageDaoImpl bookimageDao = new BookimageDaoImpl();
+
 
         String bookname = request.getParameter(BOOKNAME_KEY);
         String authorname = request.getParameter(NAME_KEY);

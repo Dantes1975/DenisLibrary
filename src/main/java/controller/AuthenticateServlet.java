@@ -12,25 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "AuthenticateServlet", urlPatterns = {"/auth", "/guest"})
 
 public class AuthenticateServlet extends HttpServlet {
-
+    BookDaoImpl bookDao = new BookDaoImpl();
+    AuthenticateDaoImpl authenticateDao = new AuthenticateDaoImpl();
+    BorrowDaoImpl borrowDao = new BorrowDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookDaoImpl bookDao = new BookDaoImpl();
-        AuthenticateDaoImpl authenticateDao = new AuthenticateDaoImpl();
-        UsersRolesDaoImpl users_rolesDao = new UsersRolesDaoImpl();
-        RoleDaoImpl roleDao = new RoleDaoImpl();
-        UserDaoImpl userDao = new UserDaoImpl();
-        BorrowDaoImpl borrowDao = new BorrowDaoImpl();
-        Authenticate aut;
-        Role role;
-        User user;
-        UsersRoles users_roles;
+
         List<Authenticate> authenticateList = authenticateDao.getAll();
         String login = request.getParameter(LOGIN_KEY);
         String password = request.getParameter(PASSWORD_KEY);
@@ -40,44 +32,30 @@ public class AuthenticateServlet extends HttpServlet {
 
         if (action.toLowerCase().equals(LOGIN_KEY)) {
             if (login == null || login.isEmpty()) {
-                response.setContentType("text/html");
-                PrintWriter writer = response.getWriter();
-                try {
-                    writer.println("<h2> Invalid User Login</h2>");
-                } finally {
-                    writer.close();
-                }
+                throw new RuntimeException("Invalid User Login");
             } else if (password == null || password.isEmpty()) {
-                response.setContentType("text/html");
-                PrintWriter writer = response.getWriter();
-                try {
-                    writer.println("<h2>Invalid User Password</h2>");
-                } finally {
-                    writer.close();
-                }
+                throw new RuntimeException("Invalid User Password");
             } else {
+                Authenticate authenticate = authenticateDao.getByLogin(login);
 
-                aut = authenticateDao.getByLogin(login);
+                if (authenticate != null) {
+                    if (login.equals(authenticate.getLogin()) && password.equals(authenticate.getPassword())) {
+                        User user = authenticate.getUser();
+                        Role role = user.getRole();
 
-                if (aut != null) {
-                    if (login.equals(aut.getLogin()) && password.equals(aut.getPassword())) {
-                        user = userDao.getById(aut.getId());
-                        users_roles = users_rolesDao.getByUserID(user.getId());
-                        role = roleDao.getById(users_roles.getRole_id());
-
-                        session.setAttribute(AUTHENTICATE_KEY, aut);
+                        session.setAttribute(AUTHENTICATE_KEY, authenticate);
                         session.setAttribute("user", user);
                         session.setAttribute(ROLE_KEY, role);
                         session.setAttribute(AUTHENT_KEY, authenticateList);
 
-                        if (role.getRole().toLowerCase().equals(USER_ROLE)) {
+                        if (role.name().toLowerCase().equals(USER_ROLE)) {
                             List<Borrow> borrows = borrowDao.getAll();
                             List<Book> books = bookDao.getAll();
                             session.setAttribute(LISTBOOKS_KEY, books);
                             session.setAttribute(BORROWS_KEY, borrows);
                             getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);
                             return;
-                        } else if (role.getRole().toLowerCase().equals(ADMIN_ROLE)) {
+                        } else if (role.name().toLowerCase().equals(ADMIN_ROLE)) {
                             getServletContext().getRequestDispatcher(ADMIN_JSP).forward(request, response);
                             return;
                         }

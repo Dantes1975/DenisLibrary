@@ -18,10 +18,11 @@ import static utill.ApplicationConstants.*;
 @WebServlet(name = "UpdateServlet", urlPatterns = "/update")
 public class UpdateServlet extends HttpServlet {
 
+    UserDaoImpl userDao = new UserDaoImpl();
+    AuthenticateDaoImpl authenticateDao = new AuthenticateDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserDaoImpl userDao = new UserDaoImpl();
-        AuthenticateDaoImpl authDao = new AuthenticateDaoImpl();
+
 
         String login = request.getParameter(LOGIN_KEY);
         String password = request.getParameter(PASSWORD_KEY);
@@ -33,11 +34,13 @@ public class UpdateServlet extends HttpServlet {
         int age = Integer.parseInt(request.getParameter(AGE_KEY));
         long id = Long.parseLong(request.getParameter(ID_KEY));
         HttpSession session = request.getSession();
-        Authenticate auth = new Authenticate(id, login, password, profile);
+        Authenticate authenticate = new Authenticate(id, login, password, profile);
         User user = new User(id, name, surname, email, age);
-        userDao.update(user);
-        authDao.update(auth);
-        session.setAttribute(AUTHENTICATE_KEY, auth);
+        authenticate.setUser(user);
+        user.setAuthenticate(authenticate);
+        //userDao.update(user);
+        authenticateDao.update(authenticate);
+        session.setAttribute(AUTHENTICATE_KEY, authenticate);
         session.setAttribute(USER_ROLE, user);
 
         getServletContext().getRequestDispatcher(BOOKS_JSP).forward(request, response);

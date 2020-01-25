@@ -20,6 +20,23 @@ public class Authenticate {
     @Column
     private String profile_enable;
 
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @PrimaryKeyJoinColumn
+    private User user;
+
+    public Authenticate(String login, String password, String profile) {
+        this.login = login;
+        this.password = password;
+        this.profile_enable = profile;
+    }
+
+    public Authenticate(long id, String login, String password, String profile) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.profile_enable = profile;
+    }
+
     @Override
     public String toString() {
         return "Authenticate{" +

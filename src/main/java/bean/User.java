@@ -22,7 +22,21 @@ public class User {
     @Column
     private int age;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    private Authenticate authenticate;
+
     public User(String name, String surname, String email, int age) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.age = age;
+    }
+
+    public User(long id, String name, String surname, String email, int age) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;

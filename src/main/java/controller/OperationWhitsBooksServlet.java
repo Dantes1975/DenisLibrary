@@ -20,11 +20,11 @@ import static utill.ApplicationConstants.*;
 
 @WebServlet(name = "OperationWhitsBooksServlet", urlPatterns = {"/listbooks", "/takebooks", "/borrows", "/return"})
 public class OperationWhitsBooksServlet extends HttpServlet {
-
+    BookDaoImpl bookDao = new BookDaoImpl();
+    BorrowDaoImpl borrowDao = new BorrowDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookDaoImpl bookDao = new BookDaoImpl();
-        BorrowDaoImpl borrowDao = new BorrowDaoImpl();
+
 
         long bookid = Long.parseLong(request.getParameter(BOOKID_KEY));
         long userid = Long.parseLong(request.getParameter(USERID_KEY));

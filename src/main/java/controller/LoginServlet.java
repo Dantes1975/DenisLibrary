@@ -1,12 +1,9 @@
 package controller;
 
 import bean.Authenticate;
+import bean.Role;
 import bean.User;
-import bean.UsersRoles;
 import repository.daoImpl.AuthenticateDaoImpl;
-import repository.daoImpl.RoleDaoImpl;
-import repository.daoImpl.UserDaoImpl;
-import repository.daoImpl.UsersRolesDaoImpl;
 
 
 import javax.servlet.ServletException;
@@ -16,18 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static utill.ApplicationConstants.*;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login", "/set"})
 public class LoginServlet extends HttpServlet {
-
+    AuthenticateDaoImpl authenticateDao = new AuthenticateDaoImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, RuntimeException {
-        UserDaoImpl userDao = new UserDaoImpl();
-        AuthenticateDaoImpl authDao = new AuthenticateDaoImpl();
-        UsersRolesDaoImpl user_role = new UsersRolesDaoImpl();
 
         String login = request.getParameter(LOGIN_KEY);
         String password = request.getParameter(PASSWORD_KEY);
@@ -38,9 +31,6 @@ public class LoginServlet extends HttpServlet {
         String action = request.getParameter(ACTION_KEY);
         int age = Integer.parseInt(request.getParameter(AGE_KEY));
         HttpSession session = request.getSession();
-        Authenticate auth = new Authenticate();
-        UsersRoles usrl = new UsersRoles();
-        User user = new User();
 
         if (login == null || login.isEmpty()) {
             throw new RuntimeException("Invalid User Login");
@@ -56,39 +46,23 @@ public class LoginServlet extends HttpServlet {
             throw new RuntimeException("Invalid User Age");
         } else {
 
-            if (!authDao.isExistByLogin(login)) {
-                auth.setLogin(login);
-                auth.setPassword(password);
-                auth.setProfile_enable("ON");
-                authDao.insert(auth);
-            } else {
-                response.setContentType("text/html");
-                PrintWriter writer = response.getWriter();
-                try {
-                    writer.println("<h2>This User Login is exist</h2>");
-                } finally {
-                    writer.close();
+            if (!authenticateDao.isExistByLogin(login)) {
+                Authenticate authenticate = new Authenticate(login, password, "ON");
+                User user = new User(name, surname, email, age);
+                if (rol.toLowerCase().equals(USER_ROLE)) {
+                    user.setRole(Role.USER);
+                } else if (rol.toLowerCase().equals(ADMIN_ROLE)) {
+                    user.setRole(Role.ADMIN);
                 }
+                authenticate.setUser(user);
+                user.setAuthenticate(authenticate);
+                authenticateDao.insert(authenticate);
+            } else {
+                throw new RuntimeException("This User Login is exist");
             }
-
-            user.setName(name);
-            user.setSurname(surname);
-            user.setEmail(email);
-            user.setAge(age);
-            userDao.insert(user);
-            usrl.setUser_id(user.getId());
-
-
-            if (rol.toLowerCase().equals(USER_ROLE)) {
-                usrl.setRole_id(2);
-            } else if (rol.toLowerCase().equals(ADMIN_ROLE)) {
-                usrl.setRole_id(1);
-            }
-
-            user_role.insert(usrl);
         }
 
-        session.setAttribute(AUTHENT_KEY, authDao.getAll());
+        session.setAttribute(AUTHENT_KEY, authenticateDao.getAll());
         if (action.toLowerCase().equals(LOGIN_KEY)) {
             getServletContext().getRequestDispatcher(START_JSP).forward(request, response);
             return;
