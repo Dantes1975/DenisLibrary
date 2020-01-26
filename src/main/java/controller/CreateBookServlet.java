@@ -4,10 +4,8 @@ import bean.Author;
 import bean.Book;
 import bean.Bookimage;
 import bean.Genre;
-import repository.daoImpl.AuthorDaoImpl;
 import repository.daoImpl.BookDaoImpl;
 import repository.daoImpl.BookimageDaoImpl;
-import repository.daoImpl.GenreDaoImpl;
 
 
 import javax.servlet.ServletException;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import static utill.ApplicationConstants.*;
@@ -41,12 +38,12 @@ public class CreateBookServlet extends HttpServlet {
         Author author = new Author(authorname, authorsurame);
         Genre genre = new Genre(genrename);
         Book book = new Book(bookname, author, genre, 5);
-        book = bookDao.insert(book);
+        book = bookDao.save(book);
 
         Bookimage bookimage = new Bookimage();
         bookimage.setBookId(book.getId());
         bookimage.setFilename(file);
-        bookimageDao.insert(bookimage);
+        bookimageDao.save(bookimage);
 
         List<Book> books = bookDao.getAll();
         session.setAttribute(LISTBOOKS_KEY, books);

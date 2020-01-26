@@ -59,7 +59,7 @@ public class LoginServlet extends HttpServlet {
                     }
                     authenticate.setUser(user);
                     user.setAuthenticate(authenticate);
-                    authenticateDao.insert(authenticate);
+                    authenticateDao.save(authenticate);
                 } else {
                     throw new RuntimeException(INVALID_USER_REGISTRATION_DATA);
                 }

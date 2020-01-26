@@ -2,14 +2,13 @@ package repository.daoImpl;
 
 import bean.Authenticate;
 import repository.dao.AbstractDao;
-import repository.dao.AuthenticateDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.*;
 
 
-public class AuthenticateDaoImpl extends AbstractDao<Authenticate> implements AuthenticateDao {
+public class AuthenticateDaoImpl extends AbstractDao<Authenticate> {
 
 
     public Authenticate getByLogin(String login) {

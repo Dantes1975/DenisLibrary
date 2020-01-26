@@ -48,7 +48,7 @@ public class OperationWhithUserServlet extends HttpServlet {
                 message.setSender(sender);
                 message.setRecipient(id);
                 message.setText("Block for borrow");
-                messageDao.insert(message);
+                messageDao.save(message);
                 List<Long> booksId = borrowDao.getBooksIdByUserId(id);
                 for (Long bookId : booksId) {
                     bookDao.returnBook(bookId);

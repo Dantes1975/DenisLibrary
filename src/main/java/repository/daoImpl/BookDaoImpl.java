@@ -3,12 +3,11 @@ package repository.daoImpl;
 
 import bean.Book;
 import repository.dao.AbstractDao;
-import repository.dao.BookDao;
 
 import javax.persistence.EntityManager;
 
 
-public class BookDaoImpl extends AbstractDao<Book> implements BookDao {
+public class BookDaoImpl extends AbstractDao<Book> {
 
     public void takeBook(long id) {
         EntityManager em = getEntityManager();

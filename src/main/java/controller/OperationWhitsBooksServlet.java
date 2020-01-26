@@ -52,7 +52,7 @@ public class OperationWhitsBooksServlet extends HttpServlet {
             borrow.setUser(userid);
             borrow.setBorrowDate(Date.valueOf(borrowdate));
             borrow.setReturnDate(Date.valueOf(returndate));
-            borrowDao.insert(borrow);
+            borrowDao.save(borrow);
             bookDao.takeBook(bookid);
             List<Borrow> borrows = borrowDao.getAll();
             List<Book> books = bookDao.getAll();

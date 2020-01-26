@@ -2,13 +2,12 @@ package repository.daoImpl;
 
 import bean.Borrow;
 import repository.dao.AbstractDao;
-import repository.dao.BorrowDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
-public class BorrowDaoImpl extends AbstractDao<Borrow> implements BorrowDao {
+public class BorrowDaoImpl extends AbstractDao<Borrow> {
 
     private final String DELETE_BY_BOOK_ID = "delete from Borrow b where b.book.id=:bookId";
     private final String DELETE_BY_USER_ID = "delete from Borrow b where b.user=:userId";

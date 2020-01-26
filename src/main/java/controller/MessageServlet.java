@@ -33,7 +33,7 @@ public class MessageServlet extends HttpServlet {
 
         if (action.toLowerCase().equals(SEND_KEY)) {
             Message message = new Message(sender, recipient, text);
-            messageDao.insert(message);
+            messageDao.save(message);
             List<Message> messages = messageDao.getAll();
             session.setAttribute(MESSAGE_KEY, message);
             session.setAttribute(MESSAGES_KEY, messages);

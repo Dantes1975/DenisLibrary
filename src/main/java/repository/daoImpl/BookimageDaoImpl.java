@@ -4,19 +4,18 @@ import bean.Bookimage;
 import org.hibernate.Session;
 
 import repository.dao.AbstractDao;
-import repository.dao.BookimageDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.*;
 
 
-public class BookimageDaoImpl extends AbstractDao<Bookimage> implements BookimageDao {
+public class BookimageDaoImpl extends AbstractDao<Bookimage> {
 
     private final String SELECT_IMAGE = "select b from Bookimage b where b.bookId=:bookId";
 
     @Override
-    public Bookimage insert(Bookimage bookimage) {
+    public Bookimage save(Bookimage bookimage) {
         EntityManager em = getEntityManager();
         Session session = em.unwrap(Session.class);
         session.beginTransaction();

@@ -9,11 +9,11 @@ import java.util.List;
 
 public abstract class AbstractDao<T> implements CrudDao<T> {
 
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
+    //private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     protected EntityManager getEntityManager() {
-        return ENTITY_MANAGER_FACTORY.createEntityManager();
+        return null;
     }
 
 
@@ -27,7 +27,7 @@ public abstract class AbstractDao<T> implements CrudDao<T> {
 
 
     @Override
-    public T insert(T t) {
+    public T save(T t) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         em.persist(t);

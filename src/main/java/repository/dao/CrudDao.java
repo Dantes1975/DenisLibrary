@@ -6,7 +6,7 @@ public interface CrudDao<T> {
     T getById(long id);
 
 
-    T insert(T t);
+    T save(T t);
 
     T update(T t);
 

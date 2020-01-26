@@ -1,14 +1,18 @@
 import bean.*;
+import config.PersistenceJPAConfig;
+import config.RootConfig;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import repository.AuthenticateDao;
+import repository.AuthorDao;
+import repository.UserDao;
 import repository.daoImpl.*;
+import service.AuthenticateService;
 
 public class Runner {
+    private static final ApplicationContext APPLICATION_CONTEXT = new AnnotationConfigApplicationContext(RootConfig.class);
     public static void main(String[] args) {
-        UserDaoImpl userDao = new UserDaoImpl();
-        AuthenticateDaoImpl authenticateDao = new AuthenticateDaoImpl();
-                AuthorDaoImpl authorDao = new AuthorDaoImpl();
-        GenreDaoImpl genreDao = new GenreDaoImpl();
-        BookDaoImpl bookDao = new BookDaoImpl();
-
+        AuthenticateService authenticateService = APPLICATION_CONTEXT.getBean(AuthenticateService.class);
 
 
         User user = new User("Denis", "Rumyancev", "dantes1975@inbox.ru", 44);
@@ -16,7 +20,8 @@ public class Runner {
         Authenticate authenticate = new Authenticate("Dantes", "123", "ON");
         authenticate.setUser(user);
         user.setAuthenticate(authenticate);
-        authenticateDao.insert(authenticate);
+        authenticateService.save(authenticate);
+
 
         //  userDao.insert(user);
 //        Author author = new Author();

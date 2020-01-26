@@ -2,7 +2,6 @@ package repository.daoImpl;
 
 import bean.Message;
 import repository.dao.AbstractDao;
-import repository.dao.MessageDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,7 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
+public class MessageDaoImpl extends AbstractDao<Message> {
 
     public List<Message> getMyMessages(long recipientId) {
         EntityManager em = getEntityManager();
