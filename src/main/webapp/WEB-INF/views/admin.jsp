@@ -68,8 +68,8 @@
 </table>
 
 
-<p><a href="createBook.jsp"> CREATE BOOK </a></p>
-<p><a href="createUserByAdmin.jsp"> CREATE USER </a></p>
+<p><a href="<c:url value="/createBookByAdmin"/> "> CREATE BOOK </a></p>
+<p><a href="<c:url value="/create" /> "> CREATE USER </a></p>
 <br>
 
 <table>
@@ -82,14 +82,14 @@
         <th> ON</th>
         <th> DEL</th>
     </tr>
-    <c:forEach items="${sessionScope.authent}" var="authntic">
+    <c:forEach items="${authenticates}" var="authntic">
         <tr>
             <td> ${authntic.id} </td>
             <td> ${authntic.login} </td>
             <td> ${authntic.password} </td>
             <td> ${authntic.profile_enable} </td>
             <td>
-                <form action="off" method="post">
+                <form action="<c:url value="/off"/> " method="post">
                     <input type="hidden" name="id" value="${authntic.id}"/>
                     <input type="hidden" name="sender" value="${sessionScope.authenticate.id}"/>
                     <select name="type">
@@ -101,14 +101,14 @@
             </td>
             <td>
                 </form>
-                <form action="on" method="post">
+                <form action="<c:url value="/on"/> " method="post">
                     <input type="hidden" name="id" value="${authntic.id}"/>
                     <input type="hidden" name="sender" value="${sessionScope.authenticate.id}"/>
                     <input type="submit" name="action" value="on"/>
                 </form>
             </td>
             <td>
-                <form action="delete" method="post">
+                <form action="<c:url value="/delete"/> " method="post">
                     <input type="hidden" name="id" value="${authntic.id}"/>
                     <input type="hidden" name="sender" value="${sessionScope.authenticate.id}"/>
                     <input type="hidden" name="type" value="0">

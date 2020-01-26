@@ -15,7 +15,7 @@
     Return
 </a>
 
-<h2> ${sessionScope.bookimage.bookimage}</h2>
+<h2> ${bookimage.bookimage}</h2>
 
 <a href="books.jsp">
     Return

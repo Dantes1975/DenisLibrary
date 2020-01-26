@@ -26,7 +26,7 @@
 <h1> YOUR STATUS is ${sessionScope.authenticate.profile_enable} </h1>
 
 <h1> MESSAGE </h1>
-<form action="message" method="post">
+<form action="<c:url value="" /> " method="post">
     <input type="hidden" name="sender" value="${sessionScope.user.id}">
     Введите адресата (admin 1 or 2) <input type="text" name="recipient">
     Введите текст <input type="text" name="text">
@@ -86,15 +86,15 @@
                 <td>${book.genre.genrename}</td>
                 <td>${book.stock}</td>
                 <td>
-                    <form action="description" method="post">
+                    <form action="<c:url value="/description"/> " method="post">
                         <input type="hidden" name="bookid" value="${book.id}">
                         <input type="submit" name="action" value="description">
                     </form>
                 </td>
                 <td>
-                    <form action="takebooks" method="post">
+                    <form action="<c:url value="/takebook"/> " method="post">
                         <input type="hidden" name="bookid" value="${book.id}"/>
-                        <input type="hidden" name="userid" value="${sessionScope.user.id}"/>
+                        <input type="hidden" name="userid" value="${user.id}"/>
                         days <select name="days">
                         <option>3</option>
                         <option>7</option>
@@ -108,7 +108,7 @@
     </table>
 
     <br>
-    <form action="listbooks" method="post">
+    <form action="<c:url value="/listbooks"/> " method="post">
         <input type="hidden" name="bookid" value="0"/>
         <input type="hidden" name="userid" value="${sessionScope.user.id}"/>
         <input type="hidden" name="days" value="0"/>
@@ -130,9 +130,9 @@
                     <td> ${borrow.borrowDate} </td>
                     <td> ${borrow.returnDate} </td>
                     <td>
-                        <form action="return" method="post">
+                        <form action="<c:url value="/returnbook"/> " method="post">
                             <input type="hidden" name="bookid" value="${borrow.book.id}"/>
-                            <input type="hidden" name="userid" value="${sessionScope.user.id}"/>
+                            <input type="hidden" name="userid" value="${user.id}"/>
                             <input type="hidden" name="days" value="0"/>
                             <input type="submit" name="action" value="return">
                         </form>
@@ -154,6 +154,6 @@
 </c:if>
 
 <br>
-<p><a href="update.jsp"> Update </a></p>
+<p><a href="<c:url value="/update"/> "> Update </a></p>
 </body>
 </html>
