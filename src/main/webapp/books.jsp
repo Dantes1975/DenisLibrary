@@ -40,29 +40,31 @@
     <input type="hidden" name="id" value="0">
     <button type="submit" name="action" value="messages">MESSAGES</button>
 </form>
-<table>
-    <tr>
-        <th> From</th>
-        <th> Text</th>
-        <th> Delete</th>
-    </tr>
-    <c:forEach items="${sessionScope.mymessages}" var="message">
-        <tr>
-            <td> ${message.sender} </td>
-            <td> ${message.text} </td>
-            <td>
-                <form action="deleteServlet" method="post">
-                    <input type="hidden" name="sender" value="0">
-                    <input type="hidden" name="recipient" value="${sessionScope.user.id}">
-                    <input type="hidden" name="text" value="message">
-                    <input type="hidden" name="id" value="${message.id}"/>
-                    <input type="submit" name="action" value="delete"/>
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
-</table>
 
+<c:if test="${sessionScope.mymessages != null}">
+    <table>
+        <tr>
+            <th> From</th>
+            <th> Text</th>
+            <th> Delete</th>
+        </tr>
+        <c:forEach items="${sessionScope.mymessages}" var="message">
+            <tr>
+                <td> ${message.sender} </td>
+                <td> ${message.text} </td>
+                <td>
+                    <form action="deleteServlet" method="post">
+                        <input type="hidden" name="sender" value="0">
+                        <input type="hidden" name="recipient" value="${sessionScope.user.id}">
+                        <input type="hidden" name="text" value="message">
+                        <input type="hidden" name="id" value="${message.id}"/>
+                        <input type="submit" name="action" value="delete"/>
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
 <c:if test="${sessionScope.authenticate.profile_enable == 'ON'}">
     <h1> Список книг нашей библиотеки </h1> <br>
 
@@ -112,42 +114,45 @@
         <input type="hidden" name="days" value="0"/>
         <input type="submit" name="action" value="books">
     </form>
-    <p> В Вашем пользовании находятся следующие книги </p>
-    <table>
-        <tr>
-            <th>BOOKMAME</th>
-            <th>BORROWDATE</th>
-            <th>RETURNDATE</th>
-            <th>RETURN</th>
-        </tr>
-        <c:forEach items="${sessionScope.borrows}" var="borrow">
+
+    <c:if test="${sessionScope.borrows != null}">
+       <p> В Вашем пользовании находятся следующие книги </p>
+        <table>
             <tr>
-                <td> ${borrow.book.bookname} </td>
-                <td> ${borrow.borrowDate} </td>
-                <td> ${borrow.returnDate} </td>
-                <td>
-                    <form action="return" method="post">
-                        <input type="hidden" name="bookid" value="${borrow.book.id}"/>
-                        <input type="hidden" name="userid" value="${sessionScope.user.id}"/>
-                        <input type="hidden" name="days" value="0"/>
-                        <input type="submit" name="action" value="return">
-                    </form>
-                </td>
+                <th>BOOKMAME</th>
+                <th>BORROWDATE</th>
+                <th>RETURNDATE</th>
+                <th>RETURN</th>
             </tr>
-        </c:forEach>
-    </table>
-    <form action="borrows" method="post">
-        <input type="hidden" name="bookid" value="0"/>
-        <input type="hidden" name="userid" value="${sessionScope.user.id}"/>
-        <input type="hidden" name="days" value="0"/>
-        <input type="submit" name="action" value="borrows">
-    </form>
+            <c:forEach items="${sessionScope.borrows}" var="borrow">
+                <tr>
+                    <td> ${borrow.book.bookname} </td>
+                    <td> ${borrow.borrowDate} </td>
+                    <td> ${borrow.returnDate} </td>
+                    <td>
+                        <form action="return" method="post">
+                            <input type="hidden" name="bookid" value="${borrow.book.id}"/>
+                            <input type="hidden" name="userid" value="${sessionScope.user.id}"/>
+                            <input type="hidden" name="days" value="0"/>
+                            <input type="submit" name="action" value="return">
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
+<%--    <form action="borrows" method="post">--%>
+    <%--        <input type="hidden" name="bookid" value="0"/>--%>
+    <%--        <input type="hidden" name="userid" value="${sessionScope.user.id}"/>--%>
+    <%--        <input type="hidden" name="days" value="0"/>--%>
+    <%--        <input type="submit" name="action" value="borrows">--%>
+    <%--    </form>--%>
 </c:if>
 
 <c:if test="${sessionScope.authenticate.profile_enable == 'OFF'}">
     <p> Вы заблокированы, обратитесь к администратору </p>
 </c:if>
-<%--<p><a href="borrows.jsp"> BORROWS BOOKS </a></p>--%>
+
 <br>
 <p><a href="update.jsp"> Update </a></p>
 </body>

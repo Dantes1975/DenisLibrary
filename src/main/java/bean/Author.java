@@ -18,6 +18,10 @@ public class Author {
     @Column(name = "lastname")
     private String surname;
 
+    public Author(String authorname, String authorsurame) {
+        this.name = authorname;
+        this.surname = authorsurame;
+    }
 
 
     @Override

@@ -36,6 +36,13 @@ public class Book {
         this.stock = stock;
     }
 
+    public Book(String bookname, Author author, Genre genre, int stock) {
+        this.bookname = bookname;
+        this.author = author;
+        this.genre = genre;
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
         return "Book{" +

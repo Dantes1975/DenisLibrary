@@ -43,6 +43,7 @@ public interface ApplicationConstants {
     String FILE_KEY = "file";
     String PROFILE_KEY = "profile";
     String ADD_KEY = "add";
+    String ERROR_KEY = "error";
 
     String LIST_JSP = "/list.jsp";
     String BOOKS_JSP = "/books.jsp";

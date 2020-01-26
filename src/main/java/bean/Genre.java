@@ -18,6 +18,9 @@ public class Genre {
     private long id;
     private String genrename;
 
+    public Genre(String genrename) {
+        this.genrename = genrename;
+    }
 
 
     @Override
