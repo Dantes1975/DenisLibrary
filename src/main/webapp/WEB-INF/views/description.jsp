@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<img src="Start/images/knigi.jpeg">
+<img src="../../Start/images/knigi.jpeg">
 
 </body>
 </html>

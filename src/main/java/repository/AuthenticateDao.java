@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuthenticateDao extends CrudRepository<Authenticate, Long> {
-    public Authenticate getByLogin(String login);
+    public Authenticate getByLoginaAndPassword(String login, String password);
     public boolean existsByLogin(String login);
 
     @Query(value = "update Authenticate a set a.profile_enable='ON' where a.id=:id")

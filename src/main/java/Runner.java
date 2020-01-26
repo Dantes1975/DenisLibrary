@@ -20,7 +20,7 @@ public class Runner {
         Authenticate authenticate = new Authenticate("Dantes", "123", "ON");
         authenticate.setUser(user);
         user.setAuthenticate(authenticate);
-        authenticateService.save(authenticate);
+        //authenticateService.save(authenticate);
 
 
         //  userDao.insert(user);
