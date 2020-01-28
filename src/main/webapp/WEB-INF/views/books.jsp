@@ -18,16 +18,16 @@
     </style>
 </head>
 <body>
-<form action="logout" method="post">
+<form action="<c:url value="/logout"/> " method="get">
     <input type="submit" name="action" value="logout">
 </form>
 
-<h1> ${sessionScope.authenticate.login} </h1> <br>
-<h1> YOUR STATUS is ${sessionScope.authenticate.profile_enable} </h1>
+<h1> ${authenticate.login} </h1> <br>
+<h1> YOUR STATUS is ${authenticate.profile_enable} </h1>
 
 <h1> MESSAGE </h1>
 <form action="<c:url value="" /> " method="post">
-    <input type="hidden" name="sender" value="${sessionScope.user.id}">
+    <input type="hidden" name="sender" value="${user.id}">
     Введите адресата (admin 1 or 2) <input type="text" name="recipient">
     Введите текст <input type="text" name="text">
     <input type="hidden" name="id" value="0">
@@ -36,26 +36,26 @@
 
 <form action="message" method="post">
     <input type="hidden" name="sender" value="0">
-    <input type="hidden" name="recipient" value="${sessionScope.user.id}">
+    <input type="hidden" name="recipient" value="${user.id}">
     <input type="hidden" name="id" value="0">
     <button type="submit" name="action" value="messages">MESSAGES</button>
 </form>
 
-<c:if test="${sessionScope.mymessages != null}">
+<c:if test="${mymessages != null}">
     <table>
         <tr>
             <th> From</th>
             <th> Text</th>
             <th> Delete</th>
         </tr>
-        <c:forEach items="${sessionScope.mymessages}" var="message">
+        <c:forEach items="${mymessages}" var="message">
             <tr>
                 <td> ${message.sender} </td>
                 <td> ${message.text} </td>
                 <td>
                     <form action="deleteServlet" method="post">
                         <input type="hidden" name="sender" value="0">
-                        <input type="hidden" name="recipient" value="${sessionScope.user.id}">
+                        <input type="hidden" name="recipient" value="${user.id}">
                         <input type="hidden" name="text" value="message">
                         <input type="hidden" name="id" value="${message.id}"/>
                         <input type="submit" name="action" value="delete"/>
@@ -65,7 +65,7 @@
         </c:forEach>
     </table>
 </c:if>
-<c:if test="${sessionScope.authenticate.profile_enable == 'ON'}">
+<c:if test="${authenticate.profile_enable == 'ON'}">
     <h1> Список книг нашей библиотеки </h1> <br>
 
     <table>
@@ -78,7 +78,7 @@
             <th>DESCRIPTION</th>
             <th>TAKE</th>
         </tr>
-        <c:forEach items="${sessionScope.listbooks}" var="book">
+        <c:forEach items="${listbooks}" var="book">
             <tr>
                 <td>${book.id} </td>
                 <td>${book.bookname} </td>
@@ -115,7 +115,7 @@
         <input type="submit" name="action" value="books">
     </form>
 
-    <c:if test="${sessionScope.borrows != null}">
+    <c:if test="${borrows != null}">
        <p> В Вашем пользовании находятся следующие книги </p>
         <table>
             <tr>
@@ -124,7 +124,7 @@
                 <th>RETURNDATE</th>
                 <th>RETURN</th>
             </tr>
-            <c:forEach items="${sessionScope.borrows}" var="borrow">
+            <c:forEach items="${borrows}" var="borrow">
                 <tr>
                     <td> ${borrow.book.bookname} </td>
                     <td> ${borrow.borrowDate} </td>
@@ -149,7 +149,7 @@
     <%--    </form>--%>
 </c:if>
 
-<c:if test="${sessionScope.authenticate.profile_enable == 'OFF'}">
+<c:if test="${authenticate.profile_enable == 'OFF'}">
     <p> Вы заблокированы, обратитесь к администратору </p>
 </c:if>
 

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Start</title>
+    <title>Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -30,7 +30,6 @@
 </head>
 <body>
 
-
 <c:if test="${error != null}">
     <h3 style="color:red;">* ${error}</h3>
 </c:if>
@@ -38,13 +37,13 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('Start/images/bg-01.jpg');">
         <div class="wrap-login100">
-            <form action="<c:url value="/login" />" method="post" class="login100-form validate-form">
+            <form action="<c:url value="/registration"/> " method="post" class="login100-form validate-form">
 					<span class="login100-form-logo">
 						<i class="zmdi zmdi-landscape"></i>
 					</span>
 
                 <span class="login100-form-title p-b-34 p-t-27">
-						Log in
+						Registration
 					</span>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter login and password">
@@ -54,26 +53,46 @@
 
                 <div class="wrap-input100 validate-input" data-validate="Enter password">
                     <input class="input100" type="password" name="password" placeholder="Password">
+                    <input class="input100" type="hidden" name="profile_enable" value="${authenticate.profile_enable}">
                     <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                    <input class="input100" type="text" name="name" placeholder="Name">
+                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                    <input class="input100" type="text" name="surname" placeholder="Surname">
+                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                    <input class="input100" type="text" name="age" placeholder="Age">
+                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                    <input class="input100" type="email" name="email" placeholder="Email">
+                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                    <input class="input100" type="hidden" name="role" value="${user.role}">
                 </div>
 
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn" type="submit" name="action" value="login">
-                        Login
+                        Registration
                     </button>
                 </div>
 
-                <div class="text-center p-t-90">
-                    <a href="<c:url value="/registration"/> ">
-                        Registration
-                    </a>
-                </div>
             </form>
 
-            <form action=<c:url value="/guest"/> method="post">
+            <form action="<c:url value="/logout"/> " method="post">
                 <div class="text-center p-t-90">
-                    <button type="submit" name="action" value="GUEST">
-                        GUEST
+                    <button type="submit" name="action" value="logout">
+                        LOGOUT
                     </button>
                 </div>
             </form>
@@ -103,4 +122,6 @@
 
 </body>
 </html>
+
+
 

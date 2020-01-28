@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
-<form action="logout" method="post">
+<form action="<c:url value="/logout"/> " method="post">
     <input type="submit" name="action" value="logout">
 </form>
 
@@ -35,7 +35,7 @@
         <th> GENRE</th>
         <th> STOCK</th>
     </tr>
-    <c:forEach items="${sessionScope.listbooks}" var="book">
+    <c:forEach items="${listbooks}" var="book">
         <tr>
             <td>${book.id} </td>
             <td>${book.bookname} </td>
@@ -48,6 +48,6 @@
 </table>
 
 <br>
-<p><a href="login.jsp"> Registration </a></p>
+<p><a href="<c:url value="/registration"/> "> Registration </a></p>
 </body>
 </html>

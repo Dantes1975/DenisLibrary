@@ -23,15 +23,15 @@
 </head>
 <body>
 
-<form action="logout" method="post">
+<form action="<c:url value="/logout"/> " method="post">
     <input type="submit" name="action" value="logout">
 </form>
 
-<h1> ${sessionScope.authenticate.login} </h1> <br>
+<h1> ${authenticate.login} </h1> <br>
 
 <h1> MESSAGE </h1>
 <form action="message" method="post">
-    <input type="hidden" name="sender" value="${sessionScope.user.id}">
+    <input type="hidden" name="sender" value="${user.id}">
     Введите адресата (admin 1 or 2) <input type="text" name="recipient">
     Введите текст <input type="text" name="text">
     <input type="hidden" name="id" value="0">
@@ -40,7 +40,7 @@
 
 <form action="message" method="post">
     <input type="hidden" name="sender" value="0">
-    <input type="hidden" name="recipient" value="${sessionScope.user.id}">
+    <input type="hidden" name="recipient" value="${user.id}">
     <input type="hidden" name="id" value="0">
     <button type="submit" name="action" value="messages">MESSAGES</button>
 </form>
@@ -51,7 +51,7 @@
         <th> Text</th>
         <th> Delete</th>
     </tr>
-    <c:forEach items="${sessionScope.mymessages}" var="message">
+    <c:forEach items="${mymessages}" var="message">
         <tr>
             <td> ${message.sender} </td>
             <td> ${message.text} </td>
@@ -110,7 +110,7 @@
             <td>
                 <form action="<c:url value="/delete"/> " method="post">
                     <input type="hidden" name="id" value="${authntic.id}"/>
-                    <input type="hidden" name="sender" value="${sessionScope.authenticate.id}"/>
+                    <input type="hidden" name="sender" value="${authenticate.id}"/>
                     <input type="hidden" name="type" value="0">
                     <input type="submit" name="action" value="delete"/>
                 </form>
