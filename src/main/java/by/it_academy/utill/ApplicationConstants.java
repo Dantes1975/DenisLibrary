@@ -1,14 +1,14 @@
 package by.it_academy.utill;
 
 public interface ApplicationConstants {
-    String USER_ROLE = "user";
+    String USER = "user";
     String GUEST_ROLE = "guest";
     String ADMIN_ROLE = "admin";
 
     String LOGIN_KEY = "login";
     String PASSWORD_KEY = "password";
     String ACTION_KEY = "action";
-    String BOOKNAME_KEY = "bookname";
+    String BOOKIMAGE_KEY = "bookimage";
     String NAME_KEY = "name";
     String SURNAME_KEY = "surname";
     String GENRENAME_KEY = "genrename";
@@ -18,6 +18,7 @@ public interface ApplicationConstants {
     String ON_KEY = "on";
     String OFF_KEY = "off";
     String AUTHENTICATE_KEY = "authenticate";
+    String AUTHENTICATES_KEY = "authenticates";
     String AUTHENT_KEY = "authent";
     String EMAIL_KEY = "email";
     String ROLE_KEY = "role";
@@ -45,11 +46,13 @@ public interface ApplicationConstants {
     String ADD_KEY = "add";
     String ERROR_KEY = "error";
 
-    String LIST_JSP = "/list.jsp";
-    String BOOKS_JSP = "/books.jsp";
-    String BORROWS_JSP = "/borrows.jsp";
-    String START_JSP = "/start.jsp";
-    String ADMIN_JSP = "/admin.jsp";
-    String LOGIN_JSP = "/registration.jsp";
-    String DESCRIPTION_JSP = "/description.jsp";
+    String LIST_JSP = "list";
+    String BOOKS_JSP = "books";
+    String UPDATE_JSP = "update";
+    String START_JSP = "start";
+    String ADMIN_JSP = "admin";
+    String REGISTRATION_JSP = "registration";
+    String DESCRIPTION_JSP = "description";
+    String CREATE_BOOK_JSP = "createBook";
+    String CREATE_BY_ADMIN_JSP = "createUserByAdmin";
 }

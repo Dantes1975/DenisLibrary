@@ -33,7 +33,7 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('Start/images/bg-01.jpg');">
         <div class="wrap-login100">
-            <form action="<c:url value="/createBookByAdmin"/> " method="post" class="login100-form validate-form">
+            <form action="<c:url value="/createBookByAdmin"/> " method="post" class="login100-form validate-form" enctype="multipart/form-data">
 					<span class="login100-form-logo">
 						<i class="zmdi zmdi-landscape"></i>
 					</span>

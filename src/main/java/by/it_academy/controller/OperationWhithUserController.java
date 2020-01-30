@@ -3,10 +3,10 @@ package by.it_academy.controller;
 
 import by.it_academy.bean.Authenticate;
 import by.it_academy.bean.User;
-import by.it_academy.repository.AuthenticateRepository;
 import by.it_academy.repository.BookRepository;
 import by.it_academy.repository.BorrowRepository;
 import by.it_academy.repository.UserRepository;
+import by.it_academy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,34 +16,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
-
 import java.util.List;
 
+import static by.it_academy.utill.ApplicationConstants.*;
 import static by.it_academy.utill.ErrorConstant.*;
 
 
 @Controller
 public class OperationWhithUserController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private AuthenticateRepository authenticateRepository;
+    private BorrowService borrowService;
 
     @Autowired
-    private BorrowRepository borrowRepository;
+    private BookService bookService;
 
     @Autowired
-    private BookRepository bookRepository;
+    AuthenticateService authenticateService;
 
+    @Autowired
+    private MessageService messageService;
 
     @GetMapping("/create")
     public ModelAndView loadCreatePage() {
         ModelAndView modelAndView = new ModelAndView("createUserByAdmin");
         User user = new User();
         Authenticate authenticate = new Authenticate();
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("authenticate", authenticate);
+        authenticate.setProfile_enable("ON");
+        modelAndView.addObject(USER, user);
+        modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
     }
 
@@ -59,31 +62,30 @@ public class OperationWhithUserController {
                 throw new RuntimeException(INVALID_USER_PASSWORD);
             }
 
-            user = userRepository.save(user);
-            authenticate = authenticateRepository.save(authenticate);
+            user.setAuthenticate(authenticate);
+            authenticate.setUser(user);
+            authenticateService.save(authenticate);
 
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("user", user);
-            modelAndView.addObject("authenticate", authenticate);
-            modelAndView.addObject("authenticates", authenticateRepository.findAll());
-            modelAndView.setViewName("admin");
+            //modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+            modelAndView.setViewName(START_JSP);
             return modelAndView;
 
         } catch (RuntimeException e) {
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("error", e.getMessage());
-            modelAndView.setViewName("createUserByAdmin");
+            modelAndView.addObject(ERROR_KEY, e.getMessage());
+            modelAndView.setViewName(CREATE_BY_ADMIN_JSP);
             return modelAndView;
         }
     }
 
     @GetMapping("/update")
     public ModelAndView loadUpdatePage() {
-        ModelAndView modelAndView = new ModelAndView("update");
+        ModelAndView modelAndView = new ModelAndView(UPDATE_JSP);
         User user = new User();
         Authenticate authenticate = new Authenticate();
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("authenticate", authenticate);
+        modelAndView.addObject(USER, user);
+        modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
     }
 
@@ -99,60 +101,66 @@ public class OperationWhithUserController {
                 throw new RuntimeException(INVALID_USER_PASSWORD);
             }
 
-            user = userRepository.save(user);
-            authenticate = authenticateRepository.save(authenticate);
+            user = userService.save(user);
+            authenticate = authenticateService.save(authenticate);
             authenticate.setProfile_enable("ON");
 
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("user", user);
-            modelAndView.addObject("authenticate", authenticate);
-            modelAndView.addObject("authenticates", authenticateRepository.findAll());
-            modelAndView.setViewName("start");
+            modelAndView.addObject(USER, user);
+            modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
+            modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+            modelAndView.setViewName(START_JSP);
             return modelAndView;
 
         } catch (RuntimeException e) {
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject("error", e.getMessage());
-            modelAndView.setViewName("update");
+            modelAndView.addObject(ERROR_KEY, e.getMessage());
+            modelAndView.setViewName(UPDATE_JSP);
             return modelAndView;
         }
     }
 
     @PostMapping("/off")
-    public ModelAndView userOff(@RequestParam long id, @RequestParam String type) {
+    public ModelAndView userOff(@RequestParam long id, @RequestParam String type, @RequestParam long adminid) {
         ModelAndView modelAndView = new ModelAndView();
         if (type.equals("off")) {
-            authenticateRepository.authOff(id);
-            List<Long> booksID = borrowRepository.getBooksIdByUserId(id);
+            authenticateService.authenticateOff(id);
+            List<Long> booksID = borrowService.getBooksIdByUserId(id);
             for (Long bookId : booksID) {
-                bookRepository.returnBook(bookId);
+                bookService.returnBook(bookId);
             }
-            borrowRepository.deleteByUser(id);
+            borrowService.deleteByUser(id);
         } else {
-            authenticateRepository.authBlock(id);
+            authenticateService.authenticateBlock(id);
         }
-        modelAndView.addObject("authenticates", authenticateRepository.findAll());
-        modelAndView.setViewName("admin");
+        modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+        modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
+        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
+        modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
     }
 
 
     @PostMapping("/on")
-    public ModelAndView userOn(@RequestParam long id) {
+    public ModelAndView userOn(@RequestParam long id, @RequestParam long adminid) {
         ModelAndView modelAndView = new ModelAndView();
-        authenticateRepository.authOn(id);
-        modelAndView.addObject("authenticates", authenticateRepository.findAll());
-        modelAndView.setViewName("admin");
+        authenticateService.authenticateOn(id);
+        modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+        modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
+        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
+        modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
     }
 
     @PostMapping("/delete")
-    public ModelAndView userDelete(@RequestParam long id) {
+    public ModelAndView userDelete(@RequestParam long id, @RequestParam long adminid) {
         ModelAndView modelAndView = new ModelAndView();
-        authenticateRepository.deleteById(id);
-        userRepository.deleteById(id);
-        modelAndView.addObject("authenticates", authenticateRepository.findAll());
-        modelAndView.setViewName("admin");
+        authenticateService.deleteById(id);
+        userService.deleteById(id);
+        modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+        modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
+        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
+        modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
     }
 }

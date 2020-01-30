@@ -26,20 +26,20 @@
 <h1> YOUR STATUS is ${authenticate.profile_enable} </h1>
 
 <h1> MESSAGE </h1>
-<form action="<c:url value="" /> " method="post">
-    <input type="hidden" name="sender" value="${user.id}">
+<form action="<c:url value="/message" /> " method="post">
+    <input type="hidden" name="sender" value="${authenticate.id}">
     Введите адресата (admin 1 or 2) <input type="text" name="recipient">
     Введите текст <input type="text" name="text">
-    <input type="hidden" name="id" value="0">
+    <input type="hidden" name="id" value="${authenticate.id}">
     <button type="submit" name="action" value="send">SEND</button>
 </form>
 
-<form action="message" method="post">
-    <input type="hidden" name="sender" value="0">
-    <input type="hidden" name="recipient" value="${user.id}">
-    <input type="hidden" name="id" value="0">
-    <button type="submit" name="action" value="messages">MESSAGES</button>
-</form>
+<%--<form action="message" method="post">--%>
+<%--    <input type="hidden" name="sender" value="0">--%>
+<%--    <input type="hidden" name="recipient" value="${user.id}">--%>
+<%--    <input type="hidden" name="id" value="0">--%>
+<%--    <button type="submit" name="action" value="messages">MESSAGES</button>--%>
+<%--</form>--%>
 
 <c:if test="${mymessages != null}">
     <table>
@@ -53,10 +53,8 @@
                 <td> ${message.sender} </td>
                 <td> ${message.text} </td>
                 <td>
-                    <form action="deleteServlet" method="post">
-                        <input type="hidden" name="sender" value="0">
-                        <input type="hidden" name="recipient" value="${user.id}">
-                        <input type="hidden" name="text" value="message">
+                    <form action="<c:url value="/deleteMessage"/> " method="post">
+                        <input type="hidden" name="recipient" value="${authenticate.id}">
                         <input type="hidden" name="id" value="${message.id}"/>
                         <input type="submit" name="action" value="delete"/>
                     </form>
@@ -94,7 +92,7 @@
                 <td>
                     <form action="<c:url value="/takebook"/> " method="post">
                         <input type="hidden" name="bookid" value="${book.id}"/>
-                        <input type="hidden" name="userid" value="${user.id}"/>
+                        <input type="hidden" name="userid" value="${authenticate.id}"/>
                         days <select name="days">
                         <option>3</option>
                         <option>7</option>
@@ -109,14 +107,12 @@
 
     <br>
     <form action="<c:url value="/listbooks"/> " method="post">
-        <input type="hidden" name="bookid" value="0"/>
-        <input type="hidden" name="userid" value="${sessionScope.user.id}"/>
-        <input type="hidden" name="days" value="0"/>
+        <input type="hidden" name="userid" value="${authenticate.id}"/>
         <input type="submit" name="action" value="books">
     </form>
 
     <c:if test="${borrows != null}">
-       <p> В Вашем пользовании находятся следующие книги </p>
+        <p> В Вашем пользовании находятся следующие книги </p>
         <table>
             <tr>
                 <th>BOOKMAME</th>
@@ -132,8 +128,7 @@
                     <td>
                         <form action="<c:url value="/returnbook"/> " method="post">
                             <input type="hidden" name="bookid" value="${borrow.book.id}"/>
-                            <input type="hidden" name="userid" value="${user.id}"/>
-                            <input type="hidden" name="days" value="0"/>
+                            <input type="hidden" name="userid" value="${authenticate.id}"/>
                             <input type="submit" name="action" value="return">
                         </form>
                     </td>
@@ -141,7 +136,7 @@
             </c:forEach>
         </table>
     </c:if>
-<%--    <form action="borrows" method="post">--%>
+    <%--    <form action="borrows" method="post">--%>
     <%--        <input type="hidden" name="bookid" value="0"/>--%>
     <%--        <input type="hidden" name="userid" value="${sessionScope.user.id}"/>--%>
     <%--        <input type="hidden" name="days" value="0"/>--%>

@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
-<form action="<c:url value="/logout"/> " method="post">
+<form action="<c:url value="/logout"/> " method="get">
     <input type="submit" name="action" value="logout">
 </form>
 
