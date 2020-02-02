@@ -7,6 +7,9 @@
         Admin page
     </title>
     <style>
+        body {
+            background: #c7b39b;
+        }
         table {
             width: 90%; /* Ширина таблицы */
             background: white; /* Цвет фона таблицы */
@@ -36,13 +39,6 @@
     Введите текст <input type="text" name="text">
     <button type="submit" name="action" value="send">SEND</button>
 </form>
-
-<%--<form action="message" method="post">--%>
-<%--    <input type="hidden" name="sender" value="0">--%>
-<%--    <input type="hidden" name="recipient" value="${user.id}">--%>
-<%--    <input type="hidden" name="id" value="0">--%>
-<%--    <button type="submit" name="action" value="messages">MESSAGES</button>--%>
-<%--</form>--%>
 
 <c:if test="${mymessages != null}">
     <p> Messages </p>

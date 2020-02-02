@@ -4,6 +4,9 @@
 <head>
     <title>list</title>
     <style>
+        body {
+            background: #c7b39b;
+        }
         table {
             width: 90%;
             background: white;
@@ -18,8 +21,8 @@
     </style>
 </head>
 <body>
-<form action="<c:url value="/logout"/> " method="get">
-    <input type="submit" name="action" value="logout">
+<form action="<c:url value="/login"/> " method="post">
+    <input type="submit" name="action" value="login">
 </form>
 
 <h1> Вы находитесь на гостевой странице </h1> <br>
@@ -49,5 +52,6 @@
 
 <br>
 <p><a href="<c:url value="/registration"/> "> Registration </a></p>
+
 </body>
 </html>

@@ -2,27 +2,26 @@ package by.it_academy.controller;
 
 
 import by.it_academy.bean.*;
-import by.it_academy.repository.BookimageRepository;
-import by.it_academy.service.AuthenticateService;
-import by.it_academy.service.BookImageService;
-import by.it_academy.service.BookService;
-import by.it_academy.service.BorrowService;
+import by.it_academy.service.*;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Date;
 import java.time.LocalDate;
 
 import static by.it_academy.utill.ApplicationConstants.*;
 
 @Controller
-@RequestMapping("/")
-public class OperationWhitsBooksController {
+public class BooksController {
 
     @Autowired
     private BookService bookService;
@@ -36,41 +35,64 @@ public class OperationWhitsBooksController {
     @Autowired
     private AuthenticateService authenticateService;
 
+
     @GetMapping("/createBookByAdmin")
     public ModelAndView loadCreateBookPage() {
         ModelAndView modelAndView = new ModelAndView(CREATE_BOOK_JSP);
         Book book = new Book();
-        Author author = new Author();
-        Genre genre = new Genre();
-        //Bookimage bookimage = new Bookimage();
-        modelAndView.addObject("book", book);
-        modelAndView.addObject("author", author);
-        modelAndView.addObject("genre", genre);
-        //modelAndView.addObject("bookimage", bookimage);
+        book.setAuthor(new Author());
+        book.setGenre(new Genre());
+        book.setStock(5);
+        Bookimage bookimage = new Bookimage();
+        modelAndView.addObject(BOOK_KEY, book);
+        modelAndView.addObject(BOOKIMAGE_KEY, bookimage);
         return modelAndView;
     }
 
     @PostMapping("/createBookByAdmin")
-    public ModelAndView createBookByAdmin(@ModelAttribute Book book, @ModelAttribute Author author,
-                                          @ModelAttribute Genre genre,
-                                          @RequestParam(value = "image", required = false) MultipartFile file) {
+    public ModelAndView createBookByAdmin(@ModelAttribute Book book, @ModelAttribute Bookimage bookimage) {
         ModelAndView modelAndView = new ModelAndView(ADMIN_JSP);
-        book.setAuthor(author);
-        book.setGenre(genre);
-        book.setStock(5);
         book = bookService.save(book);
-        Bookimage bookimage = new Bookimage();
         bookimage.setBookId(book.getId());
-        bookimage.setFilename(file.getName());
+        bookImageService.save(bookimage);
+        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+        modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/loadImage/{id}", produces = {MediaType.IMAGE_JPEG_VALUE})
+    @ResponseBody
+    public byte[] loadImage(@PathVariable int id) {
+        byte[] bytes = new byte[0];
         try {
-            byte[] image = file.getBytes();
-            bookimage.setBookimage(image);
+            if (id == 1) {
+                File file = new File(PATH_NAME + "Osn_oper.jpg");
+                bytes = Files.readAllBytes(file.toPath());
+            } else if (id == 2) {
+                File file = new File(PATH_NAME + "Oper_pr.jpg");
+                bytes = Files.readAllBytes(file.toPath());
+            } else if (id == 3) {
+                File file = new File(PATH_NAME + "Antikiller.jpg");
+                bytes = Files.readAllBytes(file.toPath());
+            } else {
+                bytes = bookImageService.getByBookId(id).getBookimage();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        modelAndView.addObject("book", book);
-        modelAndView.addObject(BOOKIMAGE_KEY, bookimage);
-        return modelAndView;
+        return bytes;
+    }
+
+    @GetMapping(value = "/loadImageServl/{id}")
+    @SneakyThrows // TODO: delete <----
+    public void loadImageServle(@PathVariable int id, @NonNull HttpServletResponse resp) {
+        resp.setContentType("image/jpeg");
+
+        File file = new File("D:\\JAVA_EE\\DenisLibrary\\src\\main\\resources\\images\\Osn_oper.jpg");
+        byte[] bookimage = Files.readAllBytes(file.toPath());
+
+        resp.setContentLength(bookimage.length);
+        resp.getOutputStream().write(bookimage);
     }
 
     @PostMapping("/takebook")
@@ -81,14 +103,14 @@ public class OperationWhitsBooksController {
                 userid, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(days)));
         borrowService.save(borrow);
         modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
-        modelAndView.addObject(BORROWS_KEY, borrowService.findAll());
+        modelAndView.addObject(BORROWS_KEY, borrowService.getBorowsByUser(userid));
         modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(userid));
         return modelAndView;
     }
 
     @PostMapping("/listbooks")
     public ModelAndView listBooks() {
-        ModelAndView modelAndView = new ModelAndView("books");
+        ModelAndView modelAndView = new ModelAndView(BOOKS_JSP);
         modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
         return modelAndView;
     }
@@ -100,19 +122,16 @@ public class OperationWhitsBooksController {
         borrowService.deleteByBook(bookid);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(userid));
         modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
-        modelAndView.addObject(BORROWS_KEY, borrowService.findAll());
+        modelAndView.addObject(BORROWS_KEY, borrowService.getBorowsByUser(userid));
         return modelAndView;
     }
 
     @PostMapping("/description")
     public ModelAndView getDescription(@RequestParam long bookid) {
         ModelAndView modelAndView = new ModelAndView();
-        if (bookid <= 3) {
-            modelAndView.setViewName(DESCRIPTION_JSP);
-        } else {
-            Bookimage bookimage = bookImageService.getByBookId(bookid);
-            modelAndView.addObject(BOOKIMAGE_KEY, bookimage);
-        }
+        Book book = bookService.findById(bookid);
+        modelAndView.addObject(BOOK_KEY, book);
+        modelAndView.setViewName(IMAGE_JSP);
         return modelAndView;
     }
 

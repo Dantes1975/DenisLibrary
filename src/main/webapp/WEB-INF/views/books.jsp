@@ -4,6 +4,9 @@
 <head>
     <title>books</title>
     <style>
+        body {
+            background: #c7b39b;
+        }
         table {
             width: 90%; /* Ширина таблицы */
             background: white; /* Цвет фона таблицы */
@@ -33,13 +36,6 @@
     <input type="hidden" name="id" value="${authenticate.id}">
     <button type="submit" name="action" value="send">SEND</button>
 </form>
-
-<%--<form action="message" method="post">--%>
-<%--    <input type="hidden" name="sender" value="0">--%>
-<%--    <input type="hidden" name="recipient" value="${user.id}">--%>
-<%--    <input type="hidden" name="id" value="0">--%>
-<%--    <button type="submit" name="action" value="messages">MESSAGES</button>--%>
-<%--</form>--%>
 
 <c:if test="${mymessages != null}">
     <table>
@@ -136,12 +132,6 @@
             </c:forEach>
         </table>
     </c:if>
-    <%--    <form action="borrows" method="post">--%>
-    <%--        <input type="hidden" name="bookid" value="0"/>--%>
-    <%--        <input type="hidden" name="userid" value="${sessionScope.user.id}"/>--%>
-    <%--        <input type="hidden" name="days" value="0"/>--%>
-    <%--        <input type="submit" name="action" value="borrows">--%>
-    <%--    </form>--%>
 </c:if>
 
 <c:if test="${authenticate.profile_enable == 'OFF'}">

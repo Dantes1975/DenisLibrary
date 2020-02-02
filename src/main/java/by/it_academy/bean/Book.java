@@ -12,6 +12,11 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 public class Book {
+
+    public Book(String bookname) {
+        this.bookname = bookname;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

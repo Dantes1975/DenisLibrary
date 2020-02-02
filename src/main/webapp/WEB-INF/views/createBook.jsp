@@ -5,35 +5,24 @@
     <title>create</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="Start/images/icons/favicon.ico"/>
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/fonts/iconic/css/material-design-iconic-font.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/animate/animate.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/animsition/css/animsition.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/daterangepicker/daterangepicker.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/css/util.css">
-    <link rel="stylesheet" type="text/css" href="Start/css/main.css">
-    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="<c:url value="/resources/images/icons/favicon.ico" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/fonts/iconic/css/material-design-iconic-font.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/animate/animate.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/css-hamburgers/hamburgers.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/animsition/css/animsition.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/select2/select2.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/daterangepicker/daterangepicker.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/util.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css" />" >
 </head>
 <body>
 
 <div class="limiter">
     <div class="container-login100" style="background-image: url('Start/images/bg-01.jpg');">
         <div class="wrap-login100">
-            <form action="<c:url value="/createBookByAdmin"/> " method="post" class="login100-form validate-form" enctype="multipart/form-data">
+            <form action="<c:url value="/createBookByAdmin"/> " method="post">
 					<span class="login100-form-logo">
 						<i class="zmdi zmdi-landscape"></i>
 					</span>
@@ -42,8 +31,9 @@
 						CREATE BOOK
 					</span>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                <div class="wrap-input100 validate-input" >
                     <input class="input100" type="text" name="bookname" placeholder="Bookname">
+                    <input class="input100" type="hidden" name="stock" value="${book.stock}">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
@@ -62,8 +52,8 @@
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
-                    <input class="input100" type="file" name="file" placeholder="Description">
+                <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="file" name="filename" placeholder="Description">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
@@ -81,23 +71,15 @@
 
 <div id="dropDownSelect1"></div>
 
-<!--===============================================================================================-->
-<script src="Start/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/bootstrap/js/popper.js"></script>
-<script src="Start/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/daterangepicker/moment.min.js"></script>
-<script src="Start/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-<script src="Start/js/main.js"></script>
-
+<script src="<c:url value="/resources/vendor/jquery/jquery-3.2.1.min.js" />"></script>
+<script src="<c:url value="/resources/vendor/animsition/js/animsition.min.js" />"></script>
+<script src="<c:url value="/resources/vendor/bootstrap/js/popper.js" />"></script>
+<script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.min.js" />"></script>
+<script src="<c:url value="/resources/vendor/select2/select2.min.js" />"></script>
+<script src="<c:url value="/resources/daterangepicker/moment.min.js" />"></script>
+<script src="<c:url value="/resources/daterangepicker/daterangepicker.js" />"></script>
+<script src="<c:url value="/resources/vendor/countdowntime/countdowntime.js" />"></script>
+<script src="<c:url value="/resources/js/main.js" />"></script>
 
 </body>
 </html>

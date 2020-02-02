@@ -5,28 +5,17 @@
     <title>createUser</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="Start/images/icons/favicon.ico"/>
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/bootstrap/css/bootstrap.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/fonts/iconic/css/material-design-iconic-font.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/animate/animate.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/css-hamburgers/hamburgers.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/animsition/css/animsition.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/select2/select2.min.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/vendor/daterangepicker/daterangepicker.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="Start/css/util.css">
-    <link rel="stylesheet" type="text/css" href="Start/css/main.css">
-    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="<c:url value="/resources/images/icons/favicon.ico" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/fonts/iconic/css/material-design-iconic-font.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/animate/animate.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/css-hamburgers/hamburgers.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/animsition/css/animsition.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/select2/select2.min.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/daterangepicker/daterangepicker.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/util.css" />" >
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css" />" >
 </head>
 <body>
 
@@ -96,35 +85,14 @@
 <div id="dropDownSelect1"></div>
 
 <!--===============================================================================================-->
-<script src="Start/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/bootstrap/js/popper.js"></script>
-<script src="Start/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/daterangepicker/moment.min.js"></script>
-<script src="Start/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-<script src="Start/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-<script src="Start/js/main.js"></script>
-
-<%--<form action="set" method="post">--%>
-<%--    login <input type="text" name="login"/>--%>
-<%--    password <input type="text" name="password"/>--%>
-<%--    name <input type="text" name="name"/>--%>
-<%--    surname <input type="text" name="surname"/>--%>
-<%--    email <input type="text" name="email"/>--%>
-<%--    age <input type="password" name="age"/>--%>
-<%--    role <select name="role">--%>
-<%--    <option>ADMIN</option>--%>
-<%--    <option>USER</option>--%>
-<%--</select>--%>
-<%--    <br>--%>
-<%--    <input type="submit" name="action" value="add">--%>
-<%--</form>--%>
+<script src="<c:url value="/resources/vendor/jquery/jquery-3.2.1.min.js" />"></script>
+<script src="<c:url value="/resources/vendor/animsition/js/animsition.min.js" />"></script>
+<script src="<c:url value="/resources/vendor/bootstrap/js/popper.js" />"></script>
+<script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.min.js" />"></script>
+<script src="<c:url value="/resources/vendor/select2/select2.min.js" />"></script>
+<script src="<c:url value="/resources/daterangepicker/moment.min.js" />"></script>
+<script src="<c:url value="/resources/daterangepicker/daterangepicker.js" />"></script>
+<script src="<c:url value="/resources/vendor/countdowntime/countdowntime.js" />"></script>
+<script src="<c:url value="/resources/js/main.js" />"></script>
 </body>
 </html>

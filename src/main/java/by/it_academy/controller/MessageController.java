@@ -4,7 +4,6 @@ package by.it_academy.controller;
 import by.it_academy.bean.Message;
 import by.it_academy.bean.Role;
 import by.it_academy.bean.User;
-import by.it_academy.repository.MessageRepository;
 import by.it_academy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

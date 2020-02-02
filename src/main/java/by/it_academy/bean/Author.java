@@ -18,9 +18,9 @@ public class Author {
     @Column(name = "lastname")
     private String surname;
 
-    public Author(String authorname, String authorsurame) {
-        this.name = authorname;
-        this.surname = authorsurame;
+    public Author(String name, String surame) {
+        this.name = name;
+        this.surname = surame;
     }
 
 

@@ -22,6 +22,7 @@ public class MessageService {
         messageRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Message> getMessagesByRecipient(long id){
         return messageRepository.getMessagesByRecipient(id);
     }

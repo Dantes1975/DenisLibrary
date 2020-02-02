@@ -3,6 +3,9 @@ package by.it_academy.bean;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +15,16 @@ public class Authenticate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column
+    @Valid
+    @NotEmpty
     private String login;
+
     @Column
+    @Valid
+    @NotEmpty
+    @Size(min = 2, max = 10)
     private String password;
     @Column
     private String profile_enable;

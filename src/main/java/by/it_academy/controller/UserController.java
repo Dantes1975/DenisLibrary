@@ -3,9 +3,6 @@ package by.it_academy.controller;
 
 import by.it_academy.bean.Authenticate;
 import by.it_academy.bean.User;
-import by.it_academy.repository.BookRepository;
-import by.it_academy.repository.BorrowRepository;
-import by.it_academy.repository.UserRepository;
 import by.it_academy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +20,7 @@ import static by.it_academy.utill.ErrorConstant.*;
 
 
 @Controller
-public class OperationWhithUserController {
+public class UserController {
     @Autowired
     private UserService userService;
 
@@ -41,10 +38,10 @@ public class OperationWhithUserController {
 
     @GetMapping("/create")
     public ModelAndView loadCreatePage() {
-        ModelAndView modelAndView = new ModelAndView("createUserByAdmin");
+        ModelAndView modelAndView = new ModelAndView(CREATE_BY_ADMIN_JSP);
         User user = new User();
         Authenticate authenticate = new Authenticate();
-        authenticate.setProfile_enable("ON");
+        authenticate.setProfile_enable(ON_KEY);
         modelAndView.addObject(USER, user);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
@@ -67,7 +64,6 @@ public class OperationWhithUserController {
             authenticateService.save(authenticate);
 
             ModelAndView modelAndView = new ModelAndView();
-            //modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
             modelAndView.setViewName(START_JSP);
             return modelAndView;
 
@@ -103,7 +99,7 @@ public class OperationWhithUserController {
 
             user = userService.save(user);
             authenticate = authenticateService.save(authenticate);
-            authenticate.setProfile_enable("ON");
+            authenticate.setProfile_enable(ON_KEY);
 
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject(USER, user);
@@ -123,7 +119,7 @@ public class OperationWhithUserController {
     @PostMapping("/off")
     public ModelAndView userOff(@RequestParam long id, @RequestParam String type, @RequestParam long adminid) {
         ModelAndView modelAndView = new ModelAndView();
-        if (type.equals("off")) {
+        if (type.equals(OFF_KEY)) {
             authenticateService.authenticateOff(id);
             List<Long> booksID = borrowService.getBooksIdByUserId(id);
             for (Long bookId : booksID) {

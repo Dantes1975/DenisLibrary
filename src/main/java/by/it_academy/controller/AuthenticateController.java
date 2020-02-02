@@ -4,11 +4,7 @@ package by.it_academy.controller;
 import by.it_academy.bean.Authenticate;
 import by.it_academy.bean.Role;
 import by.it_academy.bean.User;
-import by.it_academy.repository.*;
-import by.it_academy.service.AuthenticateService;
-import by.it_academy.service.BookService;
-import by.it_academy.service.BorrowService;
-import by.it_academy.service.UserService;
+import by.it_academy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +36,7 @@ public class AuthenticateController {
     UserService userService;
 
     @Autowired
-    MessageRepository messageRepository;
+    private MessageService messageService;
 
 
     @GetMapping("/")
@@ -67,11 +63,11 @@ public class AuthenticateController {
                 if (authenticate.getUser().getRole() == Role.USER) {
                     modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
                     modelAndView.addObject(BORROWS_KEY, borrowService.findAll());
-                    modelAndView.addObject(MYMESSAGES_KEY, messageRepository.getMessagesByRecipient(authenticate.getId()));
+                    modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(authenticate.getId()));
                     modelAndView.setViewName(BOOKS_JSP);
                 } else {
                     modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-                    modelAndView.addObject(MYMESSAGES_KEY, messageRepository.getMessagesByRecipient(authenticate.getId()));
+                    modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(authenticate.getId()));
                     modelAndView.setViewName(ADMIN_JSP);
                 }
 
