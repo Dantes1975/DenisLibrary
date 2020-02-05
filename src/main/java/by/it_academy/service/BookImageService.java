@@ -13,6 +13,7 @@ import java.nio.file.Files;
 @Service
 @Transactional
 public class BookImageService {
+
     @Autowired
     private BookimageRepository bookimageRepository;
 

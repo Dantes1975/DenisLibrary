@@ -37,18 +37,18 @@
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
-                    <input class="input100" type="text" name="name" placeholder="Author name">
+                <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="text" name="author.name" placeholder="Author name">
                     <span class="focus-input100" data-placeholder="&#xf191;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
-                    <input class="input100" type="text" name="surname" placeholder="Author surname">
+                <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="text" name="author.surname" placeholder="Author surname">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
-                    <input class="input100" type="text" name="genrename" placeholder="Genre">
+                <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="text" name="genre.genrename" placeholder="Genre">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
