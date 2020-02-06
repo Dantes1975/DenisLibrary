@@ -33,6 +33,7 @@
 					</span>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                    <input class="input100" type="hidden" name="id" value="${authenticate.id}">
                     <input class="input100" type="text" name="login" placeholder="Login">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
@@ -43,6 +44,7 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                    <input class="input100" type="hidden" name="id" value="${user.id}">
                     <input class="input100" type="text" name="name" placeholder="Name">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>

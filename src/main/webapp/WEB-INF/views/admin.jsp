@@ -6,7 +6,8 @@
     <title>
         Admin page
     </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
         body {
             background: #fff;
@@ -159,7 +160,7 @@
                                 <form class="form_modified" action="<c:url value="/deleteMessage"/> " method="post">
                                     <input type="hidden" name="recipient" value="${authenticate.id}">
                                     <input type="hidden" name="id" value="${message.id}"/>
-                                    <input type="submit" name="action" class=" btn btn-press"  value="delete"/>
+                                    <input type="submit" name="action" class=" btn btn-press" value="delete"/>
                                 </form>
                             </td>
                         </tr>
@@ -192,15 +193,17 @@
                     <td> ${authntic.password} </td>
                     <td> ${authntic.profile_enable} </td>
                     <td>
-                        <form class="form_modified" action="<c:url value="/off"/> " method="post">
-                            <input type="hidden" name="id" value="${authntic.id}"/>
-                            <input type="hidden" name="adminid" value="${authenticate.id}"/>
-                            <select name="type" class=" btn btn-press">
-                                <option>block</option>
-                                <option>off</option>
-                            </select>
-                            <input type="submit" class=" btn btn-press" name="action" value="off">
-                        </form>
+
+                            <form class="form_modified" action="<c:url value="/off"/> " method="post">
+                                <input type="hidden" name="id" value="${authntic.id}"/>
+                                <input type="hidden" name="adminid" value="${authenticate.id}"/>
+                                <select name="type" class=" btn btn-press">
+                                    <option>block</option>
+                                    <option>off</option>
+                                </select>
+                                <input type="submit" class=" btn btn-press" name="action" value="off">
+                            </form>
+
                     </td>
                     <td>
                         </form class="form_modified">
@@ -218,6 +221,7 @@
                             <input type="submit" class=" btn btn-press" name="action" value="delete"/>
                         </form>
                     </td>
+
                 </tr>
             </c:forEach>
         </table>

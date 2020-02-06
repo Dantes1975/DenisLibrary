@@ -76,10 +76,12 @@ public class UserController {
     }
 
     @GetMapping("/update")
-    public ModelAndView loadUpdatePage() {
+    public ModelAndView loadUpdatePage(@RequestParam long id) {
         ModelAndView modelAndView = new ModelAndView(UPDATE_JSP);
         User user = new User();
+        user.setId(id);
         Authenticate authenticate = new Authenticate();
+        authenticate.setId(id);
         modelAndView.addObject(USER, user);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
@@ -97,9 +99,11 @@ public class UserController {
                 throw new RuntimeException(INVALID_USER_PASSWORD);
             }
 
-            user = userService.save(user);
-            authenticate = authenticateService.save(authenticate);
             authenticate.setProfile_enable(ON_KEY);
+            user.setAuthenticate(authenticate);
+            authenticate.setUser(user);
+            authenticate = authenticateService.save(authenticate);
+
 
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject(USER, user);
@@ -151,11 +155,17 @@ public class UserController {
     @PostMapping("/delete")
     public ModelAndView userDelete(@RequestParam long id, @RequestParam long adminid) {
         ModelAndView modelAndView = new ModelAndView();
-        authenticateService.deleteById(id);
-        userService.deleteById(id);
-        modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-        modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
-        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
+        if (id != adminid) {
+            authenticateService.deleteById(id);
+            userService.deleteById(id);
+            modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+            modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
+            modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
+        } else {
+            modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+            modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
+            modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
+        }
         modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
     }

@@ -261,7 +261,12 @@
         <h3> Вы заблокированы, обратитесь к администратору </h3>
     </c:if>
     <br>
-    <p><a class=" btn btn-create" href="<c:url value="/update"/> "> Update </a></p>
+
+    <form action="<c:url value="/update"/> " method="get">
+        <input class="btn btn-create" type="hidden" name="id" value="${authenticate.id}"/>
+        <input class="btn btn-create" type="submit" name="action" value="update">
+    </form>
+
 </div>
 
 <div class="card-footer footer_container"></div>

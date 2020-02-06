@@ -14,35 +14,42 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <hibernate-version>5.4.8.Final</hibernate-version>
         <spring-version>5.2.3.RELEASE</spring-version>
+        <javax-version>3.1.0</javax-version>
+        <jsp-version>2.0</jsp-version>
+        <jstl-version>1.2</jstl-version>
+        <h2-version>1.4.196</h2-version>
+        <lombok-version>1.18.10</lombok-version>
+        <spring-data-version>2.2.4.RELEASE</spring-data-version>
+        <hibernate-validator-version>6.1.2.Final</hibernate-validator-version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${javax-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
-            <version>2.0</version>
+            <version>${jsp-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl-version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.196</version>
+            <version>${h2-version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.10</version>
+            <version>${lombok-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -73,8 +80,14 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>2.2.4.RELEASE</version>
+            <version>${spring-data-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator-version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

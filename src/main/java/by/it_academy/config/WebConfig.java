@@ -16,14 +16,6 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan("by.it_academy")
 public class WebConfig implements WebMvcConfigurer {
 
-//
-//    @Bean
-//    public MultipartResolver multipartResolver() {
-//        return new StandardServletMultipartResolver();
-//    }
-//
-
-
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
