@@ -7,14 +7,17 @@ import by.it_academy.bean.User;
 import by.it_academy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import static by.it_academy.utill.ApplicationConstants.*;
 import static by.it_academy.utill.ErrorConstant.*;
@@ -45,7 +48,7 @@ public class AuthenticateController {
     }
 
     @PostMapping("/login")
-    public ModelAndView processLogin(@RequestParam String login, @RequestParam String password) {
+    public ModelAndView processLogin(@RequestParam String login, @RequestParam String password, HttpSession httpSession) {
         try {
 
             if (login == null || login.isEmpty()) {
@@ -58,7 +61,7 @@ public class AuthenticateController {
             ModelAndView modelAndView = new ModelAndView();
 
             if (authenticate != null) {
-                modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
+                httpSession.setAttribute(AUTHENTICATE_KEY, authenticate);
 
                 if (authenticate.getUser().getRole() == Role.USER) {
                     modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
@@ -70,10 +73,8 @@ public class AuthenticateController {
                     modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(authenticate.getId()));
                     modelAndView.setViewName(ADMIN_JSP);
                 }
+            } else throw new RuntimeException(USER_NOT_FOUND);
 
-            } else {
-                modelAndView.setViewName(START_JSP);
-            }
             return modelAndView;
         } catch (RuntimeException e) {
             ModelAndView modelAndView = new ModelAndView();
@@ -107,32 +108,32 @@ public class AuthenticateController {
     }
 
     @PostMapping("/registration")
-    public ModelAndView processRegistration(@ModelAttribute User user, @ModelAttribute Authenticate authenticate) {
+    public ModelAndView processRegistration(@Valid @ModelAttribute User user, @Valid @ModelAttribute Authenticate authenticate,
+                                            BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         try {
+            if (bindingResult.hasErrors()) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/registration");
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+                redirectAttributes.addFlashAttribute(USER, user);
+                redirectAttributes.addFlashAttribute(AUTHENTICATE_KEY, authenticate);
+                return modelAndView;
 
-            if (authenticate.getLogin() == null || authenticate.getLogin().isEmpty()) {
-                throw new RuntimeException(INVALID_USER_LOGIN);
+            } else {
+
+                if (!authenticateService.existByLogin(authenticate.getLogin())) {
+                    user.setAuthenticate(authenticate);
+                    authenticate.setUser(user);
+                    authenticateService.save(authenticate);
+                    ModelAndView modelAndView = new ModelAndView();
+                    modelAndView.setViewName(START_JSP);
+                    return modelAndView;
+                } else throw new RuntimeException(ALREADY_EXIST);
+
             }
-            if (authenticate.getPassword() == null || authenticate.getPassword().isEmpty()) {
-                throw new RuntimeException(INVALID_USER_PASSWORD);
-            }
-
-            user.setAuthenticate(authenticate);
-            authenticate.setUser(user);
-            authenticate = authenticateService.save(authenticate);
-
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject(USER, authenticate.getUser());
-            modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
-            modelAndView.setViewName(START_JSP);
-
-            return modelAndView;
-
         } catch (RuntimeException e) {
-            ModelAndView modelAndView = new ModelAndView();
+            ModelAndView modelAndView = new ModelAndView(REGISTRATION_JSP);
             modelAndView.addObject(ERROR_KEY, e.getMessage());
-            modelAndView.setViewName(REGISTRATION_JSP);
             return modelAndView;
         }
     }

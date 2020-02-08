@@ -47,4 +47,8 @@ public class AuthenticateService {
     public void authenticateBlock(long id) {
         authenticateRepository.authBlock(id);
     }
+
+    public boolean existByLogin(String login){
+        return authenticateRepository.existsByLogin(login);
+    }
 }

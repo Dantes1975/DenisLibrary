@@ -108,7 +108,7 @@
 </head>
 <body>
 <div class="card-header header_container">
-    <h3 class="header_title"> ${authenticate.login} </h3>
+    <h3 class="header_title"> ${sessionScope.authenticate.login} </h3>
     <form class="form_container" action="<c:url value="/logout"/> " method="get">
         <input type="submit" class=" btn btn-light" name="action" value="logout">
     </form>
@@ -116,7 +116,7 @@
 
 <div class="card-body body-container">
     <div class="div-container">
-        <h3> Your status is ${authenticate.profile_enable} </h3>
+        <h3> Your status is ${sessionScope.authenticate.profile_enable} </h3>
     </div>
 
     <br>
@@ -125,7 +125,7 @@
         <h2> Message </h2>
         <form action="<c:url value="/message" /> " method="post">
             <div class="form-group">
-                <input type="hidden" class="form-control form-input"  name="sender" value="${authenticate.id}">
+                <input type="hidden" class="form-control form-input"  name="sender" value="${sessionScope.authenticate.id}">
 
             </div>
             <div class="form-group">
@@ -136,7 +136,7 @@
 
                 <label for="message_text">Введите текст</label>
                 <input type="text" class="form-control form-input" name="text" id="message_text">
-                <input type="hidden" class="form-control form-input" name="id" value="${authenticate.id}">
+                <input type="hidden" class="form-control form-input" name="id" value="${sessionScope.authenticate.id}">
             </div>
             <button type="submit" class="btn btn-light btn-message" name="action" value="send">
                 SEND
@@ -162,7 +162,7 @@
                         <td> ${message.text} </td>
                         <td>
                             <form class="form_modified" action="<c:url value="/deleteMessage"/> " method="post">
-                                <input type="hidden" name="recipient" value="${authenticate.id}">
+                                <input type="hidden" name="recipient" value="${sessionScope.authenticate.id}">
                                 <input type="hidden" name="id" value="${message.id}"/>
                                 <input type="submit" class=" btn btn-press" name="action" value="delete"/>
                             </form>
@@ -176,7 +176,7 @@
     <br>
 
     <div class="div-container">
-        <c:if test="${authenticate.profile_enable == 'ON'}">
+        <c:if test="${sessionScope.authenticate.profile_enable == 'ON'}">
             <h3 class="table-title"> Список книг нашей библиотеки</h3>
             <table class="table table-bordered">
                 <thead class="thead-light">
@@ -206,7 +206,7 @@
                         <td>
                             <form class="form_modified" action="<c:url value="/takebook"/> " method="post">
                                 <input type="hidden" name="bookid" value="${book.id}"/>
-                                <input type="hidden" name="userid" value="${authenticate.id}"/>
+                                <input type="hidden" name="userid" value="${sessionScope.authenticate.id}"/>
                                 days
                                 <select name="days" class="btn btn-press">
                                     <option>3</option>
@@ -223,7 +223,7 @@
             <br>
 
             <form action="<c:url value="/listbooks"/> " method="post">
-                <input class="btn btn-create" type="hidden" name="userid" value="${authenticate.id}"/>
+                <input class="btn btn-create" type="hidden" name="userid" value="${sessionScope.authenticate.id}"/>
                 <input class="btn btn-create" type="submit" name="action" value="books">
             </form>
 
@@ -246,7 +246,7 @@
                             <td>
                                 <form class="form_modified" action="<c:url value="/returnbook"/> " method="post">
                                     <input type="hidden" name="bookid" value="${borrow.book.id}"/>
-                                    <input type="hidden" name="userid" value="${authenticate.id}"/>
+                                    <input type="hidden" name="userid" value="${sessionScope.authenticate.id}"/>
                                     <input type="submit" class=" btn btn-press" name="action" value="return">
                                 </form>
                             </td>
@@ -257,13 +257,13 @@
         </c:if>
     </div>
 
-    <c:if test="${authenticate.profile_enable == 'OFF'}">
+    <c:if test="${sessionScope.authenticate.profile_enable == 'OFF'}">
         <h3> Вы заблокированы, обратитесь к администратору </h3>
     </c:if>
     <br>
 
     <form action="<c:url value="/update"/> " method="get">
-        <input class="btn btn-create" type="hidden" name="id" value="${authenticate.id}"/>
+        <input class="btn btn-create" type="hidden" name="id" value="${sessionScope.authenticate.id}"/>
         <input class="btn btn-create" type="submit" name="action" value="update">
     </form>
 

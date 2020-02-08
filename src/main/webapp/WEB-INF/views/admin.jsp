@@ -113,7 +113,7 @@
 </head>
 <body>
 <div class="card-header header_container">
-    <h3 class="header_title"> ${authenticate.login} </h3>
+    <h3 class="header_title"> ${sessionScope.authenticate.login} </h3>
     <form class="form_container" action="<c:url value="/logout"/> " method="get">
         <input type="submit" class=" btn btn-light" name="action" value="logout">
     </form>
@@ -125,7 +125,7 @@
             <h2> Message </h2>
             <form action="<c:url value="/message"/> " method="post">
                 <div class="form-group">
-                    <input type="hidden" class="form-control form-input" name="sender" value="${authenticate.id}">
+                    <input type="hidden" class="form-control form-input" name="sender" value="${sessionScope.authenticate.id}">
                 </div>
                 <div class="form-group">
                     <label for="message_recipient">Введите адресата (admin 1 or 2)</label>
@@ -158,7 +158,7 @@
                             <td> ${message.text} </td>
                             <td>
                                 <form class="form_modified" action="<c:url value="/deleteMessage"/> " method="post">
-                                    <input type="hidden" name="recipient" value="${authenticate.id}">
+                                    <input type="hidden" name="recipient" value="${sessionScope.authenticate.id}">
                                     <input type="hidden" name="id" value="${message.id}"/>
                                     <input type="submit" name="action" class=" btn btn-press" value="delete"/>
                                 </form>
@@ -196,7 +196,7 @@
 
                             <form class="form_modified" action="<c:url value="/off"/> " method="post">
                                 <input type="hidden" name="id" value="${authntic.id}"/>
-                                <input type="hidden" name="adminid" value="${authenticate.id}"/>
+                                <input type="hidden" name="adminid" value="${sessionScope.authenticate.id}"/>
                                 <select name="type" class=" btn btn-press">
                                     <option>block</option>
                                     <option>off</option>
@@ -209,14 +209,14 @@
                         </form class="form_modified">
                         <form action="<c:url value="/on"/> " method="post">
                             <input type="hidden" name="id" value="${authntic.id}"/>
-                            <input type="hidden" name="adminid" value="${authenticate.id}"/>
+                            <input type="hidden" name="adminid" value="${sessionScope.authenticate.id}"/>
                             <input type="submit" class=" btn btn-press" name="action" value="on"/>
                         </form>
                     </td>
                     <td>
                         <form class="form_modified" action="<c:url value="/delete"/> " method="post">
                             <input type="hidden" name="id" value="${authntic.id}"/>
-                            <input type="hidden" name="adminid" value="${authenticate.id}"/>
+                            <input type="hidden" name="adminid" value="${sessionScope.authenticate.id}"/>
                             <input type="hidden" name="type" value="0">
                             <input type="submit" class=" btn btn-press" name="action" value="delete"/>
                         </form>

@@ -6,13 +6,16 @@ import by.it_academy.bean.User;
 import by.it_academy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static by.it_academy.utill.ApplicationConstants.*;
@@ -48,75 +51,58 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ModelAndView processCreateByAdmin(@ModelAttribute User user, @ModelAttribute Authenticate authenticate) {
+    public ModelAndView processCreateByAdmin(@Valid @ModelAttribute User user, @Valid @ModelAttribute Authenticate authenticate,
+                                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        try {
 
-            if (authenticate.getLogin() == null || authenticate.getLogin().isEmpty()) {
-                throw new RuntimeException(INVALID_USER_LOGIN);
-            }
-            if (authenticate.getPassword() == null || authenticate.getPassword().isEmpty()) {
-                throw new RuntimeException(INVALID_USER_PASSWORD);
-            }
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/registration");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redirectAttributes.addFlashAttribute(USER, user);
+            redirectAttributes.addFlashAttribute(AUTHENTICATE_KEY, authenticate);
+            return modelAndView;
+
+        } else {
 
             user.setAuthenticate(authenticate);
             authenticate.setUser(user);
             authenticateService.save(authenticate);
 
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName(START_JSP);
+            modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+            modelAndView.setViewName(ADMIN_JSP);
             return modelAndView;
 
-        } catch (RuntimeException e) {
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject(ERROR_KEY, e.getMessage());
-            modelAndView.setViewName(CREATE_BY_ADMIN_JSP);
-            return modelAndView;
         }
     }
 
     @GetMapping("/update")
     public ModelAndView loadUpdatePage(@RequestParam long id) {
         ModelAndView modelAndView = new ModelAndView(UPDATE_JSP);
-        User user = new User();
-        user.setId(id);
-        Authenticate authenticate = new Authenticate();
-        authenticate.setId(id);
+        User user = userService.getById(id);
+        Authenticate authenticate = authenticateService.getById(id);
         modelAndView.addObject(USER, user);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
     }
 
     @PostMapping("/update")
-    public ModelAndView updateUser(@ModelAttribute User user, @ModelAttribute Authenticate authenticate) {
+    public ModelAndView updateUser(@Valid @ModelAttribute User user, @Valid @ModelAttribute Authenticate authenticate,
+                                   BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/registration");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            redirectAttributes.addFlashAttribute(USER, user);
+            redirectAttributes.addFlashAttribute(AUTHENTICATE_KEY, authenticate);
+            return modelAndView;
 
-        try {
-
-            if (authenticate.getLogin() == null || authenticate.getLogin().isEmpty()) {
-                throw new RuntimeException(INVALID_USER_LOGIN);
-            }
-            if (authenticate.getPassword() == null || authenticate.getPassword().isEmpty()) {
-                throw new RuntimeException(INVALID_USER_PASSWORD);
-            }
+        } else {
 
             authenticate.setProfile_enable(ON_KEY);
             user.setAuthenticate(authenticate);
             authenticate.setUser(user);
-            authenticate = authenticateService.save(authenticate);
-
-
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject(USER, user);
-            modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
-            modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-            modelAndView.setViewName(START_JSP);
-            return modelAndView;
-
-        } catch (RuntimeException e) {
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.addObject(ERROR_KEY, e.getMessage());
-            modelAndView.setViewName(UPDATE_JSP);
-            return modelAndView;
+            authenticateService.save(authenticate);
+            return new ModelAndView(START_JSP);
         }
     }
 
@@ -134,7 +120,6 @@ public class UserController {
             authenticateService.authenticateBlock(id);
         }
         modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-        modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
         modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
         modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
@@ -146,7 +131,6 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         authenticateService.authenticateOn(id);
         modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-        modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
         modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
         modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
@@ -159,11 +143,9 @@ public class UserController {
             authenticateService.deleteById(id);
             userService.deleteById(id);
             modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-            modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
             modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
         } else {
             modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-            modelAndView.addObject(AUTHENTICATE_KEY, authenticateService.getById(adminid));
             modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
         }
         modelAndView.setViewName(ADMIN_JSP);

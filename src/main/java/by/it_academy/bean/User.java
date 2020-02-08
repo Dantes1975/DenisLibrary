@@ -3,6 +3,9 @@ package by.it_academy.bean;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Data
@@ -14,12 +17,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
+    @NotEmpty
     private String name;
     @Column
+    @NotEmpty
     private String surname;
     @Column
+    @NotEmpty
     private String email;
     @Column
+    @Digits(integer = 3, fraction = 0)
     private int age;
 
     @Enumerated(value = EnumType.STRING)
