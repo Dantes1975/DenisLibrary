@@ -63,6 +63,14 @@ public class PersistenceJPAConfig {
         dataSource.setUrl(env.getProperty("hibernate.hikari.jdbcUrl"));
         dataSource.setUsername(env.getProperty("hibernate.hikari.username"));
         dataSource.setPassword(env.getProperty("hibernate.hikari.password"));
+        dataSource.setPassword(env.getProperty("hibernate.hikari.poolName"));
+        dataSource.setPassword(env.getProperty("hibernate.hikari.connectionTimeout"));
+        dataSource.setPassword(env.getProperty("hibernate.hikari.maxLifetime"));
+        dataSource.setPassword(env.getProperty("hibernate.hikari.minimumIdle"));
+        dataSource.setPassword(env.getProperty("hibernate.hikari.maximumPoolSize"));
+        dataSource.setPassword(env.getProperty("hibernate.hikari.idleTimeout"));
+        dataSource.setPassword(env.getProperty("hibernate.hikari.leakDetectionThreshold"));
+        dataSource.setPassword(env.getProperty("hibernate.connection.provider_class"));
         return dataSource;
     }
 

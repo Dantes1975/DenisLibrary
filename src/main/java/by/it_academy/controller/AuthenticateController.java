@@ -38,11 +38,15 @@ public class AuthenticateController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    private MessageService messageService;
-
 
     @GetMapping("/")
+    protected ModelAndView loadMainPage() {
+        ModelAndView modelAndView = new ModelAndView(GUEST_JSP);
+        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+        return modelAndView;
+    }
+
+    @GetMapping("/login")
     protected ModelAndView loadLoginPage() {
         return new ModelAndView(START_JSP);
     }
@@ -62,17 +66,8 @@ public class AuthenticateController {
 
             if (authenticate != null) {
                 httpSession.setAttribute(AUTHENTICATE_KEY, authenticate);
-
-                if (authenticate.getUser().getRole() == Role.USER) {
-                    modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
-                    modelAndView.addObject(BORROWS_KEY, borrowService.findAll());
-                    modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(authenticate.getId()));
-                    modelAndView.setViewName(BOOKS_JSP);
-                } else {
-                    modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-                    modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(authenticate.getId()));
-                    modelAndView.setViewName(ADMIN_JSP);
-                }
+                modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+                modelAndView.setViewName(MAIN_JSP);
             } else throw new RuntimeException(USER_NOT_FOUND);
 
             return modelAndView;
@@ -85,25 +80,15 @@ public class AuthenticateController {
 
     }
 
-    @PostMapping("/guest")
-    public ModelAndView loadGuestPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
-        modelAndView.setViewName(LIST_JSP);
-        return modelAndView;
-    }
-
     @GetMapping("/registration")
     public ModelAndView loadRegistrationPage() {
         ModelAndView modelAndView = new ModelAndView(REGISTRATION_JSP);
-
         User user = new User();
         user.setRole(Role.USER);
         Authenticate authenticate = new Authenticate();
         authenticate.setProfile_enable("ON");
         modelAndView.addObject(USER, user);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
-
         return modelAndView;
     }
 
@@ -125,8 +110,8 @@ public class AuthenticateController {
                     user.setAuthenticate(authenticate);
                     authenticate.setUser(user);
                     authenticateService.save(authenticate);
-                    ModelAndView modelAndView = new ModelAndView();
-                    modelAndView.setViewName(START_JSP);
+                    ModelAndView modelAndView = new ModelAndView(GUEST_JSP);
+                    modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
                     return modelAndView;
                 } else throw new RuntimeException(ALREADY_EXIST);
 
@@ -138,9 +123,36 @@ public class AuthenticateController {
         }
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return START_JSP;
+    @GetMapping("/userpage")
+    public ModelAndView loadUserPage(HttpSession httpSession) {
+        Authenticate authenticate = (Authenticate) httpSession.getAttribute(AUTHENTICATE_KEY);
+        ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
+        modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+        modelAndView.addObject(BORROWS_KEY, borrowService.getBorowsByUser(authenticate.getId()));
+        return modelAndView;
     }
+
+    @GetMapping("/logout")
+    public ModelAndView logout(HttpSession session) {
+        session.invalidate();
+        ModelAndView modelAndView = new ModelAndView(GUEST_JSP);
+        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+        return modelAndView;
+    }
+
+    @GetMapping("/home")
+    public ModelAndView returnHomePage(HttpSession httpSession) {
+        Authenticate authenticate = (Authenticate) httpSession.getAttribute(AUTHENTICATE_KEY);
+        ModelAndView modelAndView = new ModelAndView();
+        if(authenticate != null) {
+            modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+            modelAndView.setViewName(MAIN_JSP);
+        } else {
+            modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+            modelAndView.setViewName(GUEST_JSP);
+        }
+        return modelAndView;
+    }
+
+
 }

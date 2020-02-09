@@ -40,4 +40,9 @@ public class BorrowService {
     public List<Borrow> getBorowsByUser(long id) {
         return (List<Borrow>) borrowRepository.getBorrowsByUser(id);
     }
+
+    @Transactional(readOnly = true)
+    public List<Borrow> getBorowsByBookId(long id) {
+        return (List<Borrow>) borrowRepository.getBorrowsByBook_Id(id);
+    }
 }

@@ -15,12 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
 import static by.it_academy.utill.ApplicationConstants.*;
-import static by.it_academy.utill.ErrorConstant.*;
-
 
 @Controller
 public class UserController {
@@ -36,8 +35,6 @@ public class UserController {
     @Autowired
     AuthenticateService authenticateService;
 
-    @Autowired
-    private MessageService messageService;
 
     @GetMapping("/create")
     public ModelAndView loadCreatePage() {
@@ -68,19 +65,18 @@ public class UserController {
             authenticate.setUser(user);
             authenticateService.save(authenticate);
 
-            ModelAndView modelAndView = new ModelAndView();
+            ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
             modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-            modelAndView.setViewName(ADMIN_JSP);
             return modelAndView;
 
         }
     }
 
     @GetMapping("/update")
-    public ModelAndView loadUpdatePage(@RequestParam long id) {
+    public ModelAndView loadUpdatePage(HttpSession httpSession) {
+        Authenticate authenticate = (Authenticate) httpSession.getAttribute(AUTHENTICATE_KEY);
         ModelAndView modelAndView = new ModelAndView(UPDATE_JSP);
-        User user = userService.getById(id);
-        Authenticate authenticate = authenticateService.getById(id);
+        User user = userService.getById(authenticate.getId());
         modelAndView.addObject(USER, user);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
@@ -102,13 +98,15 @@ public class UserController {
             user.setAuthenticate(authenticate);
             authenticate.setUser(user);
             authenticateService.save(authenticate);
-            return new ModelAndView(START_JSP);
+            ModelAndView modelAndView = new ModelAndView(GUEST_JSP);
+            modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+            return modelAndView;
         }
     }
 
     @PostMapping("/off")
     public ModelAndView userOff(@RequestParam long id, @RequestParam String type, @RequestParam long adminid) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
         if (type.equals(OFF_KEY)) {
             authenticateService.authenticateOff(id);
             List<Long> booksID = borrowService.getBooksIdByUserId(id);
@@ -120,35 +118,29 @@ public class UserController {
             authenticateService.authenticateBlock(id);
         }
         modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
-        modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
     }
 
 
     @PostMapping("/on")
     public ModelAndView userOn(@RequestParam long id, @RequestParam long adminid) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
         authenticateService.authenticateOn(id);
         modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
-        modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
     }
 
     @PostMapping("/delete")
     public ModelAndView userDelete(@RequestParam long id, @RequestParam long adminid) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
         if (id != adminid) {
             authenticateService.deleteById(id);
             userService.deleteById(id);
             modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-            modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
         } else {
             modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-            modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(adminid));
+
         }
-        modelAndView.setViewName(ADMIN_JSP);
         return modelAndView;
     }
 }

@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>image</title>
+    <title>books</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
@@ -105,45 +105,59 @@
         .form_modified {
             margin: 0;
         }
-
     </style>
-
-
 </head>
 <body>
 <div class="card-header header_container">
-    <form class="form_container" action="<c:url value="/home"/> " method="get">
-        <input type="submit" class=" btn btn-light" name="action" value="home">
+    <form class="form_container" action="<c:url value="/login"/> " method="get">
+        <input type="submit" class=" btn btn-light" name="action" value="login">
     </form>
+    <form class="form_container" action="<c:url value="/registration"/> " method="get">
+        <input type="submit" class=" btn btn-light" name="action" value="registration">
+    </form>
+<%--    <form class="form_container" action="<c:url value="/logout"/> " method="get">--%>
+<%--        <input type="submit" class=" btn btn-light" name="action" value="logout">--%>
+<%--    </form>--%>
 </div>
+
 <div class="card-body body-container">
-    <p align="center">
-        <img src="<c:url value="/loadImage/${book.id}"/> "
-             width="15%"
-             height="45%"
-             border="3">
-    </p>
-    <c:if test="${sessionScope.authenticate.user.role == 'ADMIN'}">
-        <c:if test="${borrows != null}">
-            <h3 class="table-title"> Данная книга находится в пользовании </h3>
-            <table class="table table-bordered">
-                <thead class="thead-light">
+
+    <div class="div-container">
+
+        <h3 class="table-title"> Список книг нашей библиотеки</h3>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>BOOK NAME</th>
+                <th>AUTHOR</th>
+                <th>GENRE</th>
+                <th>STOCK</th>
+                <th>DESCRIPTION</th>
+            </tr>
+            </thead>
+            <c:forEach items="${listbooks}" var="book">
                 <tr>
-                    <th>USER</th>
-                    <th>BORROWDATE</th>
-                    <th>RETURNDATE</th>
+                    <td>${book.id} </td>
+                    <td>${book.bookname} </td>
+                    <td>${book.author.name} ${book.author.surname}</td>
+                    <td>${book.genre.genrename}</td>
+                    <td>${book.stock}</td>
+                    <td>
+                        <form class="form_modified" action="<c:url value="/description"/> " method="post">
+                            <input type="hidden" name="bookid" value="${book.id}">
+                            <input type="submit" class=" btn btn-press" name="action" value="description">
+                        </form>
+                    </td>
                 </tr>
-                </thead>
-                <c:forEach items="${borrows}" var="borrow">
-                    <tr>
-                        <td> ${borrow.user} </td>
-                        <td> ${borrow.borrowDate} </td>
-                        <td> ${borrow.returnDate} </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </c:if>
-    </c:if>
+            </c:forEach>
+        </table>
+
+    </div>
+
 </div>
+
+<div class="card-footer footer_container"></div>
+
 </body>
 </html>

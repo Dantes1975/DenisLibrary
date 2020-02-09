@@ -12,6 +12,7 @@ import java.util.List;
 public interface BorrowRepository extends CrudRepository<Borrow, Long> {
 
    public List<Borrow> getBorrowsByUser(long id);
+   public List<Borrow> getBorrowsByBook_Id(long id);
    public void deleteByUser(long id);
    public void deleteByBookId(long id);
 
