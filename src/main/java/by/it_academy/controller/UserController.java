@@ -76,7 +76,7 @@ public class UserController {
     public ModelAndView loadUpdatePage(HttpSession httpSession) {
         Authenticate authenticate = (Authenticate) httpSession.getAttribute(AUTHENTICATE_KEY);
         ModelAndView modelAndView = new ModelAndView(UPDATE_JSP);
-        User user = userService.getById(authenticate.getId());
+        User user = authenticate.getUser();
         modelAndView.addObject(USER, user);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
@@ -105,7 +105,7 @@ public class UserController {
     }
 
     @PostMapping("/off")
-    public ModelAndView userOff(@RequestParam long id, @RequestParam String type, @RequestParam long adminid) {
+    public ModelAndView userOff(@RequestParam long id, @RequestParam String type) {
         ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
         if (type.equals(OFF_KEY)) {
             authenticateService.authenticateOff(id);
@@ -123,7 +123,7 @@ public class UserController {
 
 
     @PostMapping("/on")
-    public ModelAndView userOn(@RequestParam long id, @RequestParam long adminid) {
+    public ModelAndView userOn(@RequestParam long id) {
         ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
         authenticateService.authenticateOn(id);
         modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());

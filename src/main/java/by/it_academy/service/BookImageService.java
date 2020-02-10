@@ -31,4 +31,8 @@ public class BookImageService {
     public Bookimage getByBookId(long id) {
         return bookimageRepository.getByBookId(id);
     }
+
+    public void deleteByBookId(long id){
+        bookimageRepository.deleteByBookId(id);
+    }
 }

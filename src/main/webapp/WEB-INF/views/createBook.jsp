@@ -32,6 +32,7 @@
 					</span>
 
                 <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="hidden" name="id" value="${book.id}">
                     <input class="input100" type="text" name="bookname" placeholder="Bookname">
                     <input class="input100" type="hidden" name="stock" value="${book.stock}">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
@@ -53,6 +54,7 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" >
+                    <input class="input100" type="hidden" name="id" value="${bookimage.id}">
                     <input class="input100" type="file" name="filename" placeholder="Description">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>

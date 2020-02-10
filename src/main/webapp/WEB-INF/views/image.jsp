@@ -143,6 +143,11 @@
                 </c:forEach>
             </table>
         </c:if>
+
+        </form class="form_modified">
+        <form action="<c:url value="/updateBook/${book.id}"/> " method="get">
+            <input type="submit" class=" btn btn-press" name="action" value="Update"/>
+        </form>
     </c:if>
 </div>
 </body>

@@ -151,7 +151,6 @@
 
                         <form class="form_modified" action="<c:url value="/off"/> " method="post">
                             <input type="hidden" name="id" value="${authntic.id}"/>
-                            <input type="hidden" name="adminid" value="${sessionScope.authenticate.id}"/>
                             <select name="type" class=" btn btn-press">
                                 <option>block</option>
                                 <option>off</option>
@@ -164,7 +163,6 @@
                         </form class="form_modified">
                         <form action="<c:url value="/on"/> " method="post">
                             <input type="hidden" name="id" value="${authntic.id}"/>
-                            <input type="hidden" name="adminid" value="${sessionScope.authenticate.id}"/>
                             <input type="submit" class=" btn btn-press" name="action" value="on"/>
                         </form>
                     </td>

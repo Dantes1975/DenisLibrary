@@ -5,8 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import java.util.Objects;
+
 
 @Data
 @NoArgsConstructor

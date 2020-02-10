@@ -46,6 +46,18 @@ public class BooksController {
         return modelAndView;
     }
 
+    @GetMapping("/updateBook/{id}")
+    public ModelAndView updateBook(@PathVariable long id){
+        ModelAndView modelAndView = new ModelAndView(CREATE_BOOK_JSP);
+        Book book = bookService.findById(id);
+        Bookimage bookimage = new Bookimage();
+        bookImageService.deleteByBookId(id);
+        modelAndView.addObject(BOOK_KEY, book);
+        modelAndView.addObject(BOOKIMAGE_KEY, bookimage);
+        return modelAndView;
+    }
+
+
     @PostMapping("/createBookByAdmin")
     public ModelAndView createBookByAdmin(@ModelAttribute Book book, @ModelAttribute Bookimage bookimage) {
         ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
