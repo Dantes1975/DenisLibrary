@@ -1,8 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%--
+  Created by IntelliJ IDEA.
+  User: User
+  Date: 10.02.2020
+  Time: 19:29
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>books</title>
+    <title>Loggin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
@@ -108,76 +116,38 @@
     </style>
 </head>
 <body>
-<div class="card-header header_container">
-    <h3 class="header_title"> Hello ${sessionScope.authenticate.login} </h3>
-    <form class="form_container" action="<c:url value="/home"/> " method="get">
-        <input type="submit" class=" btn btn-light" value="home">
-    </form>
-    <form class="form_container" action="<c:url value="/message"/> " method="get">
-        <input type="submit" class=" btn btn-light" value="messages">
-    </form>
-    <form class="form_container" action="<c:url value="/userpage"/> " method="get">
-        <input type="submit" class=" btn btn-light" value="kabinet">
-    </form>
-    <form class="form_container" action="<c:url value="/logout"/> " method="get">
-        <input type="submit" class=" btn btn-light" value="logout">
-    </form>
-</div>
+<c:if test="${error != null}">
+    <h3 style="color:red;">* ${error}</h3>
+</c:if>
 
 <div class="card-body body-container">
     <div class="div-container">
-        <h2> Message </h2>
-        <form action="<c:url value="/createMessage" /> " method="post">
+        <h2> Login </h2>
+        <form action="<c:url value="/registration" /> " method="post">
             <div class="form-group">
-                <input type="hidden" class="form-control form-input" name="sender"
-                       value="${sessionScope.authenticate.id}">
-
+                <input class="input100" type="text" name="login" placeholder="Login">
             </div>
             <div class="form-group">
-                <label for="message_recipient"> Что-бы отправить сообщение администратору, введите 1 или 2 </label>
-                <input type="text" class="form-control form-input" name="recipient" id="message_recipient">
+                <input class="input100" type="password" name="password" placeholder="Password">
             </div>
             <div class="form-group">
-                <label for="message_text">Введите текст</label>
-                <input type="text" class="form-control form-input" name="text" id="message_text">
+                <input class="input100" type="text" name="name" placeholder="Name">
             </div>
-            <button type="submit" class="btn btn-light btn-message" value="send">
-                SEND
+            <div class="form-group">
+                <input class="input100" type="text" name="surname" placeholder="Surname">
+            </div>
+            <div class="form-group">
+                <input class="input100" type="text" name="age" placeholder="Age">
+            </div>
+            <div class="form-group">
+                <input class="input100" type="email" name="email" placeholder="Email">
+            </div>
+            <button type="submit" class="btn btn-light btn-message" name="action" value="login">
+                LOGIN
             </button>
         </form>
     </div>
 
-    <br>
-
-    <div class="div-container">
-        <c:if test="${mymessages != null}">
-            <table class="table table-bordered">
-                <thead class="thead-light">
-                <tr>
-                    <th>From</th>
-                    <th>Text</th>
-                    <th>Delete</th>
-                </tr>
-                </thead>
-                <c:forEach items="${mymessages}" var="message">
-                    <tr>
-                        <td> ${message.sender.login} </td>
-                        <td> ${message.text} </td>
-                        <td>
-                            <form class="form_modified" action="<c:url value="/deleteMessage"/> " method="post">
-                                <input type="hidden" name="id" value="${message.id}"/>
-                                <input type="submit" class=" btn btn-press" value="delete"/>
-                            </form>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </c:if>
-    </div>
-
 </div>
-
-<div class="card-footer footer_container"></div>
-
 </body>
 </html>

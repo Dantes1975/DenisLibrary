@@ -12,11 +12,15 @@ import java.util.Objects;
 @Entity
 public class Borrow {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "BORROW_ID_SEQ_GEN", sequenceName = "BORROW_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BORROW_ID_SEQ_GEN")
     private long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToOne(fetch = FetchType.LAZY)
     private Book book;
+
     private long user;
     private Date borrowDate;
     private Date returnDate;
@@ -32,7 +36,6 @@ public class Borrow {
     public String toString() {
         return "Borrow{" +
                 "id=" + id +
-                ", book=" + book +
                 ", user=" + user +
                 ", borrowDate=" + borrowDate +
                 ", returnDate=" + returnDate +

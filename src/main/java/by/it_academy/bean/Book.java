@@ -13,40 +13,22 @@ import java.util.Objects;
 @Entity
 public class Book {
 
-    public Book(String bookname) {
-        this.bookname = bookname;
-    }
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "BOOK_ID_SEQ_GEN", sequenceName = "BOOK_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOK_ID_SEQ_GEN")
     private long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private Author author;
+
     private String bookname;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private Genre genre;
     private int stock;
 
-    public Book(long id, String bookname) {
-        this.id = id;
-        this.bookname = bookname;
-    }
-
-    public Book(Author author, String bookname, Genre genre, int stock) {
-        this.author = author;
-        this.bookname = bookname;
-        this.genre = genre;
-        this.stock = stock;
-    }
-
-    public Book(String bookname, Author author, Genre genre, int stock) {
-        this.bookname = bookname;
-        this.author = author;
-        this.genre = genre;
-        this.stock = stock;
-    }
 
     @Override
     public String toString() {

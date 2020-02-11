@@ -13,10 +13,13 @@ import java.util.Objects;
 @Entity
 public class Bookimage implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "BOOKIMAGE_ID_SEQ_GEN", sequenceName = "BOOKIMAGE_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOOKIMAGE_ID_SEQ_GEN")
     private long id;
     private long bookId;
     private String filename;
+
+    @EqualsAndHashCode.Exclude
     @Lob
     private byte[] bookimage;
 

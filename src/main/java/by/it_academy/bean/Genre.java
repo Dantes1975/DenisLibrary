@@ -2,10 +2,7 @@ package by.it_academy.bean;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Data
@@ -14,7 +11,8 @@ import java.util.Objects;
 @Entity
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "GENRE_ID_SEQ_GEN", sequenceName = "GENRE_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GENRE_ID_SEQ_GEN")
     private long id;
     private String genrename;
 

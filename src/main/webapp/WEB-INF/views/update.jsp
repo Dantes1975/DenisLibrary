@@ -22,7 +22,15 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css" />">
 </head>
 <body>
+<c:if test="${error != null}">
+    <h3 style="color:red;">* ${error}</h3>
+</c:if>
 <h1> Введите новые данные </h1><br>
+<h2> Old login ${authenticate.login} </h2><br>
+<h2> Old password ${authenticate.password} </h2><br>
+<h2> Old name ${user.name} </h2><br>
+
+
 <div class="limiter">
     <div class="container-login100" style="background-image: url('Start/images/bg-01.jpg');">
         <div class="wrap-login100">
@@ -35,7 +43,7 @@
 						UPDATE
 					</span>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                <div class="wrap-input100 validate-input" data-validate="Enter login">
                     <input class="input100" type="hidden" name="id" value="${authenticate.id}">
                     <input class="input100" type="text" name="login" placeholder="Login">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
@@ -46,24 +54,27 @@
                     <span class="focus-input100" data-placeholder="&#xf191;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
-                    <input class="input100" type="hidden" name="id" value="${user.id}">
-                    <input class="input100" type="hidden" name="role" value="${user.role}">
+                <div class="wrap-input100 validate-input" data-validate="Enter name">
                     <input class="input100" type="text" name="name" placeholder="Name">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                <div>
+                    <input class="input100" type="hidden" name="id" value="${user.id}">
+                    <input class="input100" type="hidden" name="role" value="${user.role}">
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter surname">
                     <input class="input100" type="text" name="surname" placeholder="Surname">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                <div class="wrap-input100 validate-input" data-validate="Enter age">
                     <input class="input100" type="text" name="age" placeholder="Age">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter login and password">
+                <div class="wrap-input100 validate-input" data-validate="Enter email">
                     <input class="input100" type="email" name="email" placeholder="Email">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>

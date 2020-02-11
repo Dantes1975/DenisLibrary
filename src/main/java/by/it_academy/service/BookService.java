@@ -24,7 +24,7 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public List<Book> getAllBooks(){
-        return (List<Book>) bookRepository.findAll();
+        return (List<Book>) bookRepository.getAllBooks();
     }
 
     public void takeBook(long id) {

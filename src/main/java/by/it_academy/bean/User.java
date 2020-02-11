@@ -12,9 +12,13 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @Entity
 public class User {
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "USER_ID_SEQ_GEN", sequenceName = "USER_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_ID_SEQ_GEN")
     private long id;
+
     @Column
     @NotEmpty
     private String name;
@@ -31,7 +35,8 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @OneToOne(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
     private Authenticate authenticate;
 
     public User(String name, String surname, String email, int age) {

@@ -127,11 +127,10 @@
 <div class="card-body body-container">
     <div class="div-container">
         <c:if test="${sessionScope.authenticate.profile_enable == 'ON'}">
-            <h3 class="table-title"> Список книг нашей библиотеки</h3>
+            <h3 class="table-title"> Список книг нашей библиотеки </h3>
             <table class="table table-bordered">
                 <thead class="thead-light">
                 <tr>
-                    <th>ID</th>
                     <th>BOOK NAME</th>
                     <th>AUTHOR</th>
                     <th>GENRE</th>
@@ -142,7 +141,6 @@
                 </thead>
                 <c:forEach items="${listbooks}" var="book">
                     <tr>
-                        <td>${book.id} </td>
                         <td>${book.bookname} </td>
                         <td>${book.author.name} ${book.author.surname}</td>
                         <td>${book.genre.genrename}</td>
@@ -154,17 +152,22 @@
                             </form>
                         </td>
                         <td>
-                            <form class="form_modified" action="<c:url value="/takebook"/> " method="post">
-                                <input type="hidden" name="bookid" value="${book.id}"/>
-                                <input type="hidden" name="userid" value="${sessionScope.authenticate.id}"/>
-                                days
-                                <select name="days" class="btn btn-press">
-                                    <option>3</option>
-                                    <option>7</option>
-                                    <option>10</option>
-                                </select>
-                                <input type="submit" class=" btn btn-press" name="action" value="take"/>
-                            </form>
+                            <c:if test="${book.stock > 0}">
+                                <form class="form_modified" action="<c:url value="/takebook"/> " method="post">
+                                    <input type="hidden" name="bookid" value="${book.id}"/>
+                                    <input type="hidden" name="userid" value="${sessionScope.authenticate.id}"/>
+                                    days
+                                    <select name="days" class="btn btn-press">
+                                        <option>3</option>
+                                        <option>7</option>
+                                        <option>10</option>
+                                    </select>
+                                    <input type="submit" class=" btn btn-press" name="action" value="take"/>
+                                </form>
+                            </c:if>
+                            <c:if test="${book.stock == 0}">
+                                <h3 style="color:red;"> Все книги на руках </h3>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
@@ -173,7 +176,7 @@
     </div>
 
     <c:if test="${sessionScope.authenticate.profile_enable == 'OFF'}">
-        <h3> Вы заблокированы, обратитесь к администратору </h3>
+        <h3 style="color: red"> Вы заблокированы, обратитесь к администратору </h3>
     </c:if>
     <br>
 

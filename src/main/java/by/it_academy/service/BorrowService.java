@@ -20,7 +20,7 @@ public class BorrowService {
 
     @Transactional(readOnly = true)
     public List<Long> getBooksIdByUserId(long id) {
-        return borrowRepository.getBooksIdByUserId(id);
+        return borrowRepository.getBooksIdByUser(id);
     }
 
     public void deleteByUser(long id) {
@@ -38,7 +38,7 @@ public class BorrowService {
 
     @Transactional(readOnly = true)
     public List<Borrow> getBorowsByUser(long id) {
-        return (List<Borrow>) borrowRepository.getBorrowsByUser(id);
+        return (List<Borrow>) borrowRepository.getBorrowsByUserId(id);
     }
 
     @Transactional(readOnly = true)

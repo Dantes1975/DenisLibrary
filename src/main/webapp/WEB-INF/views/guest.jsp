@@ -108,6 +108,7 @@
     </style>
 </head>
 <body>
+
 <div class="card-header header_container">
     <form class="form_container" action="<c:url value="/login"/> " method="get">
         <input type="submit" class=" btn btn-light" name="action" value="login">
@@ -115,20 +116,16 @@
     <form class="form_container" action="<c:url value="/registration"/> " method="get">
         <input type="submit" class=" btn btn-light" name="action" value="registration">
     </form>
-<%--    <form class="form_container" action="<c:url value="/logout"/> " method="get">--%>
-<%--        <input type="submit" class=" btn btn-light" name="action" value="logout">--%>
-<%--    </form>--%>
 </div>
 
 <div class="card-body body-container">
 
     <div class="div-container">
 
-        <h3 class="table-title"> Список книг нашей библиотеки</h3>
+        <h3 class="table-title"> Список книг нашей библиотеки </h3>
         <table class="table table-bordered">
             <thead class="thead-light">
             <tr>
-                <th>ID</th>
                 <th>BOOK NAME</th>
                 <th>AUTHOR</th>
                 <th>GENRE</th>
@@ -138,7 +135,6 @@
             </thead>
             <c:forEach items="${listbooks}" var="book">
                 <tr>
-                    <td>${book.id} </td>
                     <td>${book.bookname} </td>
                     <td>${book.author.name} ${book.author.surname}</td>
                     <td>${book.genre.genrename}</td>
@@ -152,7 +148,6 @@
                 </tr>
             </c:forEach>
         </table>
-
     </div>
 
 </div>

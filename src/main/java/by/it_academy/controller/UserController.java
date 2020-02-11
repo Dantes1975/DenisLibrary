@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static by.it_academy.utill.ApplicationConstants.*;
+import static by.it_academy.utill.ErrorConstant.ALREADY_EXIST;
 
 @Controller
 public class UserController {
@@ -42,6 +43,7 @@ public class UserController {
         User user = new User();
         Authenticate authenticate = new Authenticate();
         authenticate.setProfile_enable(ON_KEY);
+        authenticate.setUser(new User());
         modelAndView.addObject(USER, user);
         modelAndView.addObject(AUTHENTICATE_KEY, authenticate);
         return modelAndView;
@@ -51,25 +53,31 @@ public class UserController {
     public ModelAndView processCreateByAdmin(@Valid @ModelAttribute User user, @Valid @ModelAttribute Authenticate authenticate,
                                              BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+        try {
+            if (bindingResult.hasErrors()) {
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+                redirectAttributes.addFlashAttribute(USER, user);
+                redirectAttributes.addFlashAttribute(AUTHENTICATE_KEY, authenticate);
+                return new ModelAndView(REDIRECT_CREATE);
 
-        if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("redirect:/registration");
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
-            redirectAttributes.addFlashAttribute(USER, user);
-            redirectAttributes.addFlashAttribute(AUTHENTICATE_KEY, authenticate);
+            } else {
+
+                if (!authenticateService.existByLogin(authenticate.getLogin())) {
+                    user.setAuthenticate(authenticate);
+                    authenticate.setUser(user);
+                    authenticateService.save(authenticate);
+                    ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
+                    modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
+                    return modelAndView;
+                } else throw new RuntimeException(ALREADY_EXIST);
+
+            }
+        } catch (RuntimeException e) {
+            ModelAndView modelAndView = new ModelAndView(CREATE_BY_ADMIN_JSP);
+            modelAndView.addObject(ERROR_KEY, e.getMessage());
             return modelAndView;
-
-        } else {
-
-            user.setAuthenticate(authenticate);
-            authenticate.setUser(user);
-            authenticateService.save(authenticate);
-
-            ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
-            modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-            return modelAndView;
-
         }
+
     }
 
     @GetMapping("/update")
@@ -84,39 +92,45 @@ public class UserController {
 
     @PostMapping("/update")
     public ModelAndView updateUser(@Valid @ModelAttribute User user, @Valid @ModelAttribute Authenticate authenticate,
-                                   BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("redirect:/registration");
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
-            redirectAttributes.addFlashAttribute(USER, user);
-            redirectAttributes.addFlashAttribute(AUTHENTICATE_KEY, authenticate);
-            return modelAndView;
+                                   BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                                   HttpSession httpSession) {
 
-        } else {
+        try {
+            if (bindingResult.hasErrors()) {
+                redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+                redirectAttributes.addFlashAttribute(USER, user);
+                redirectAttributes.addFlashAttribute(AUTHENTICATE_KEY, authenticate);
+                return new ModelAndView(REDIRECT_UPDATE);
 
-            authenticate.setProfile_enable(ON_KEY);
-            user.setAuthenticate(authenticate);
-            authenticate.setUser(user);
-            authenticateService.save(authenticate);
-            ModelAndView modelAndView = new ModelAndView(GUEST_JSP);
-            modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+            } else {
+
+                if (!authenticateService.existByLogin(authenticate.getLogin())) {
+                    authenticate.setProfile_enable(ON_KEY);
+                    user.setAuthenticate(authenticate);
+                    authenticate.setUser(user);
+                    authenticate = authenticateService.save(authenticate);
+                    httpSession.setAttribute(AUTHENTICATE_KEY, authenticate);
+                    return new ModelAndView(REDIRECT_MAIN);
+                } else throw new RuntimeException(ALREADY_EXIST);
+
+            }
+        } catch (RuntimeException e) {
+            ModelAndView modelAndView = new ModelAndView(UPDATE_JSP);
+            modelAndView.addObject(ERROR_KEY, e.getMessage());
             return modelAndView;
         }
+
     }
 
     @PostMapping("/off")
-    public ModelAndView userOff(@RequestParam long id, @RequestParam String type) {
+    public ModelAndView userOff(@RequestParam long id) {
         ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
-        if (type.equals(OFF_KEY)) {
-            authenticateService.authenticateOff(id);
-            List<Long> booksID = borrowService.getBooksIdByUserId(id);
-            for (Long bookId : booksID) {
-                bookService.returnBook(bookId);
-            }
-            borrowService.deleteByUser(id);
-        } else {
-            authenticateService.authenticateBlock(id);
+        authenticateService.authenticateOff(id);
+        List<Long> booksID = borrowService.getBooksIdByUserId(id);
+        for (Long bookId : booksID) {
+            bookService.returnBook(bookId);
         }
+        borrowService.deleteByUser(id);
         modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
         return modelAndView;
     }

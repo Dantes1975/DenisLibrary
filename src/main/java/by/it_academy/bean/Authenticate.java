@@ -6,13 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Authenticate {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "AUTHENTICATE_ID_SEQ_GEN", sequenceName = "AUTHENTICATE_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AUTHENTICATE_ID_SEQ_GEN")
     private long id;
 
     @Column
@@ -24,10 +26,12 @@ public class Authenticate {
     @Size(min = 2, max = 10)
     private String password;
 
+    @EqualsAndHashCode.Exclude
     @Column
     private String profile_enable;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @EqualsAndHashCode.Exclude
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private User user;
 

@@ -1,15 +1,25 @@
-insert into USER (NAME, SURNAME, EMAIL, AGE, ROLE) values ('Ivan', 'Ivanov', 'ivanov@mail.ru',18, 'ADMIN');
-insert into USER (NAME, SURNAME, EMAIL, AGE, ROLE) values ('Petr', 'Petrov', 'prtrov@mail.ru',18, 'ADMIN');
-insert into USER (NAME, SURNAME, EMAIL, AGE, ROLE) values ('Denis', 'Rumyancev', 'dantes@mail.ru',44, 'USER');
+DROP SEQUENCE IF EXISTS USER_ID_SEQ_GEN;
+CREATE SEQUENCE USER_ID_SEQ_GEN START WITH 1 INCREMENT BY 1 CACHE 10 NOCYCLE;
+insert into USER (ID, NAME, SURNAME, EMAIL, AGE, ROLE) values (USER_ID_SEQ_GEN.nextval, 'Ivan', 'Ivanov', 'ivanov@mail.ru',18, 'ADMIN');
+insert into USER (ID, NAME, SURNAME, EMAIL, AGE, ROLE) values (USER_ID_SEQ_GEN.nextval, 'Petr', 'Petrov', 'prtrov@mail.ru',18, 'ADMIN');
+insert into USER (ID, NAME, SURNAME, EMAIL, AGE, ROLE) values (USER_ID_SEQ_GEN.nextval, 'Denis', 'Rumyancev', 'dantes@mail.ru',44, 'USER');
 
+DROP SEQUENCE IF EXISTS AUTHENTICATE_ID_SEQ_GEN;
+CREATE SEQUENCE AUTHENTICATE_ID_SEQ_GEN START WITH 1 INCREMENT BY 1 CACHE 10 NOCYCLE;
+insert into AUTHENTICATE (ID, LOGIN, PASSWORD, PROFILE_ENABLE) values (AUTHENTICATE_ID_SEQ_GEN.nextval, 'admin', '12', 'ON' );
+insert into AUTHENTICATE (ID, LOGIN, PASSWORD, PROFILE_ENABLE) values (AUTHENTICATE_ID_SEQ_GEN.nextval,'admin1', '12', 'ON' );
+insert into AUTHENTICATE (ID, LOGIN, PASSWORD, PROFILE_ENABLE) values (AUTHENTICATE_ID_SEQ_GEN.nextval,'Denis1975', '12', 'ON' );
 
-insert into AUTHENTICATE (LOGIN, PASSWORD, PROFILE_ENABLE) values ('admin', '12', 'ON' );
-insert into AUTHENTICATE (LOGIN, PASSWORD, PROFILE_ENABLE) values ('admin1', '12', 'ON' );
-insert into AUTHENTICATE (LOGIN, PASSWORD, PROFILE_ENABLE) values ('Denis1975', '12', 'ON' );
+DROP SEQUENCE IF EXISTS AUTHOR_ID_SEQ_GEN;
+CREATE SEQUENCE AUTHOR_ID_SEQ_GEN START WITH 1 INCREMENT BY 1 CACHE 10 NOCYCLE;
+insert into AUTHOR (ID, FIRSTNAME, LASTNAME) VALUES (AUTHOR_ID_SEQ_GEN.nextval, 'Danil', 'Koretski' );
 
-insert into AUTHOR (FIRSTNAME, LASTNAME) VALUES ( 'Danil', 'Koretski' );
-insert into GENRE (GENRENAME) values ( 'detektiv' );
+DROP SEQUENCE IF EXISTS GENRE_ID_SEQ_GEN;
+CREATE SEQUENCE GENRE_ID_SEQ_GEN START WITH 1 INCREMENT BY 1 CACHE 10 NOCYCLE;
+insert into GENRE (ID, GENRENAME) values (GENRE_ID_SEQ_GEN.nextval, 'detektiv' );
 
-insert into BOOK (BOOKNAME, STOCK, AUTHOR_ID, GENRE_ID) values ( 'Osnovnaya opetratsiya', 5, 1, 1 );
-insert into BOOK (BOOKNAME, STOCK, AUTHOR_ID, GENRE_ID) values ( 'Opetratsiya prikritiya', 5, 1, 1 );
-insert into BOOK (BOOKNAME, STOCK, AUTHOR_ID, GENRE_ID) values ( 'Antikiller', 5, 1, 1 );
+DROP SEQUENCE IF EXISTS BOOK_ID_SEQ_GEN;
+CREATE SEQUENCE BOOK_ID_SEQ_GEN START WITH 1 INCREMENT BY 1 CACHE 10 NOCYCLE;
+insert into BOOK (ID, BOOKNAME, STOCK, AUTHOR_ID, GENRE_ID) values (BOOK_ID_SEQ_GEN.nextval, 'Osnovnaya opetratsiya', 5, 1, 1 );
+insert into BOOK (ID, BOOKNAME, STOCK, AUTHOR_ID, GENRE_ID) values (BOOK_ID_SEQ_GEN.nextval, 'Opetratsiya prikritiya', 5, 1, 1 );
+insert into BOOK (ID, BOOKNAME, STOCK, AUTHOR_ID, GENRE_ID) values (BOOK_ID_SEQ_GEN.nextval, 'Antikiller', 5, 1, 1 );

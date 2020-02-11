@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AuthenticateRepository extends CrudRepository<Authenticate, Long> {
     Authenticate getByLoginAndPassword(String login, String password);
@@ -18,10 +20,9 @@ public interface AuthenticateRepository extends CrudRepository<Authenticate, Lon
     void authOn(@Param("id") long id);
 
     @Modifying
-    @Query(value = "UPDATE AUTHENTICATE SET PROFILE_ENABLE='OFF' WHERE ID=:id", nativeQuery = true)
+    @Query(value = "update Authenticate a set a.profile_enable='OFF' where a.id=:id")
     void authOff(@Param("id") long id);
 
-    @Modifying
-    @Query(value = "update Authenticate a set a.profile_enable='BOCK' where a.id=:id")
-    void authBlock(@Param("id") long id);
+    @Query(value = "select a from Authenticate  a join fetch a.user")
+    List<Authenticate> getAllAuthenticates();
 }

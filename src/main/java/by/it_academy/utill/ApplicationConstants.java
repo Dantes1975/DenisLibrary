@@ -27,5 +27,13 @@ public interface ApplicationConstants {
     String MESSAGE_JSP = "messages";
     String USERPAGE_JSP = "userpage";
 
+    String REDIRECT_GUEST = "redirect:/guest";
+    String REDIRECT_MAIN = "redirect:/main";
+    String REDIRECT_MESSAGE = "redirect:/message";
+    String REDIRECT_REGISTRATION = "redirect:/registration";
+    String REDIRECT_CREATE = "redirect:/create";
+    String REDIRECT_UPDATE = "redirect:/update";
+    String REDIRECT_LOGIN = "redirect:/login";
+
     String PATH_NAME = "D:\\JAVA_EE\\DenisLibrary\\src\\main\\resources\\images\\";
 }

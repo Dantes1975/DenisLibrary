@@ -29,9 +29,20 @@ public class BooksController {
     @Autowired
     private BookImageService bookImageService;
 
-    @Autowired
-    private AuthenticateService authenticateService;
 
+    @GetMapping({"/", "guest"})
+    protected ModelAndView loadGuestPage() {
+        ModelAndView modelAndView = new ModelAndView(GUEST_JSP);
+        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+        return modelAndView;
+    }
+
+    @GetMapping("/main")
+    protected ModelAndView loadMainPage() {
+        ModelAndView modelAndView = new ModelAndView(MAIN_JSP);
+        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
+        return modelAndView;
+    }
 
     @GetMapping("/createBookByAdmin")
     public ModelAndView loadCreateBookPage() {
@@ -47,7 +58,7 @@ public class BooksController {
     }
 
     @GetMapping("/updateBook/{id}")
-    public ModelAndView updateBook(@PathVariable long id){
+    public ModelAndView updateBook(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView(CREATE_BOOK_JSP);
         Book book = bookService.findById(id);
         Bookimage bookimage = new Bookimage();
@@ -60,12 +71,10 @@ public class BooksController {
 
     @PostMapping("/createBookByAdmin")
     public ModelAndView createBookByAdmin(@ModelAttribute Book book, @ModelAttribute Bookimage bookimage) {
-        ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
         book = bookService.save(book);
         bookimage.setBookId(book.getId());
         bookImageService.save(bookimage);
-        modelAndView.addObject(AUTHENTICATES_KEY, authenticateService.findAll());
-        return modelAndView;
+        return new ModelAndView(REDIRECT_MAIN);
     }
 
     @GetMapping(value = "/loadImage/{id}", produces = {MediaType.IMAGE_JPEG_VALUE})
@@ -93,32 +102,26 @@ public class BooksController {
 
     @PostMapping("/takebook")
     public ModelAndView takeBook(@RequestParam long bookid, @RequestParam long userid, @RequestParam int days) {
-        ModelAndView modelAndView = new ModelAndView(MAIN_JSP);
         bookService.takeBook(bookid);
         Borrow borrow = new Borrow(bookService.findById(bookid),
                 userid, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(days)));
         borrowService.save(borrow);
-        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
-        return modelAndView;
+        return new ModelAndView(REDIRECT_MAIN);
     }
 
     @PostMapping("/returnbook")
-    public ModelAndView returnBook(@RequestParam long bookid, @RequestParam long userid) {
-        ModelAndView modelAndView = new ModelAndView(USERPAGE_JSP);
+    public ModelAndView returnBook(@RequestParam long bookid) {
         bookService.returnBook(bookid);
         borrowService.deleteByBook(bookid);
-        modelAndView.addObject(LISTBOOKS_KEY, bookService.getAllBooks());
-        modelAndView.addObject(BORROWS_KEY, borrowService.getBorowsByUser(userid));
-        return modelAndView;
+        return new ModelAndView(REDIRECT_MAIN);
     }
 
     @PostMapping("/description")
     public ModelAndView getDescription(@RequestParam long bookid) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView(IMAGE_JSP);
         Book book = bookService.findById(bookid);
         modelAndView.addObject(BOOK_KEY, book);
         modelAndView.addObject(BORROWS_KEY, borrowService.getBorowsByBookId(bookid));
-        modelAndView.setViewName(IMAGE_JSP);
         return modelAndView;
     }
 

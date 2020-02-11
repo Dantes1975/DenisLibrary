@@ -79,6 +79,7 @@
     </style>
 </head>
 <body>
+
 <div class="card-header header_container">
     <h3 class="header_title"> Hello ${sessionScope.authenticate.login} </h3>
     <form class="form_container" action="<c:url value="/home"/> " method="get">
@@ -115,7 +116,6 @@
                     <td>
                         <form class="form_modified" action="<c:url value="/returnbook"/> " method="post">
                             <input type="hidden" name="bookid" value="${borrow.book.id}"/>
-                            <input type="hidden" name="userid" value="${sessionScope.authenticate.id}"/>
                             <input type="submit" class=" btn btn-press" name="action" value="return">
                         </form>
                     </td>
@@ -137,44 +137,39 @@
                 <th> ID</th>
                 <th> LOGIN</th>
                 <th> PROFILE ENABLE</th>
-                <th> OFF</th>
-                <th> ON</th>
-                <th> DEL</th>
+                <th> BLOCK/UNBLOCK</th>
+                <th> DELETE USER</th>
             </tr>
             </thead>
             <c:forEach items="${authenticates}" var="authntic">
                 <tr>
-                    <td> ${authntic.id} </td>
-                    <td> ${authntic.login} </td>
-                    <td> ${authntic.profile_enable} </td>
-                    <td>
-
-                        <form class="form_modified" action="<c:url value="/off"/> " method="post">
-                            <input type="hidden" name="id" value="${authntic.id}"/>
-                            <select name="type" class=" btn btn-press">
-                                <option>block</option>
-                                <option>off</option>
-                            </select>
-                            <input type="submit" class=" btn btn-press" name="action" value="off">
-                        </form>
-
-                    </td>
-                    <td>
-                        </form class="form_modified">
-                        <form action="<c:url value="/on"/> " method="post">
-                            <input type="hidden" name="id" value="${authntic.id}"/>
-                            <input type="submit" class=" btn btn-press" name="action" value="on"/>
-                        </form>
-                    </td>
-                    <td>
-                        <form class="form_modified" action="<c:url value="/delete"/> " method="post">
-                            <input type="hidden" name="id" value="${authntic.id}"/>
-                            <input type="hidden" name="adminid" value="${sessionScope.authenticate.id}"/>
-                            <input type="hidden" name="type" value="0">
-                            <input type="submit" class=" btn btn-press" name="action" value="delete"/>
-                        </form>
-                    </td>
-
+                    <c:if test="${authntic.id != sessionScope.authenticate.id}">
+                        <td> ${authntic.id} </td>
+                        <td> ${authntic.login} </td>
+                        <td> ${authntic.profile_enable} </td>
+                        <td>
+                            <c:if test="${authntic.profile_enable=='ON'}">
+                                <form class="form_modified" action="<c:url value="/off"/> " method="post">
+                                    <input type="hidden" name="id" value="${authntic.id}"/>
+                                    <input type="submit" class=" btn btn-press" name="action" value="Block">
+                                </form>
+                            </c:if>
+                            <c:if test="${authntic.profile_enable=='OFF'}">
+                                </form class="form_modified">
+                                <form action="<c:url value="/on"/> " method="post">
+                                    <input type="hidden" name="id" value="${authntic.id}"/>
+                                    <input type="submit" class=" btn btn-press" name="action" value="Unblock"/>
+                                </form>
+                            </c:if>
+                        </td>
+                        <td>
+                            <form class="form_modified" action="<c:url value="/delete"/> " method="post">
+                                <input type="hidden" name="id" value="${authntic.id}"/>
+                                <input type="hidden" name="adminid" value="${sessionScope.authenticate.id}"/>
+                                <input type="submit" class=" btn btn-press" name="action" value="Delete"/>
+                            </form>
+                        </td>
+                    </c:if>
                 </tr>
             </c:forEach>
         </table>

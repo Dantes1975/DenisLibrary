@@ -29,21 +29,17 @@ public class MessageController {
         return modelAndView;
     }
 
-    @PostMapping("/message")
-    public ModelAndView createMessage(@RequestParam long sender, @RequestParam long recipient, @RequestParam String text) {
-        ModelAndView modelAndView = new ModelAndView(MESSAGE_JSP);
+    @PostMapping("/createMessage")
+    public ModelAndView createMessage(HttpSession httpSession, @RequestParam long recipient, @RequestParam String text) {
+        Authenticate sender = (Authenticate) httpSession.getAttribute(AUTHENTICATE_KEY);
         Message message = new Message(sender, recipient, text);
-        message = messageService.save(message);
-        modelAndView.addObject(MESSAGE_KEY, message);
-        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(sender));
-        return modelAndView;
+        messageService.save(message);
+        return new ModelAndView(REDIRECT_MESSAGE);
     }
 
     @PostMapping("/deleteMessage")
-    public ModelAndView deleteMessage(@RequestParam long recipient, @RequestParam long id) {
-        ModelAndView modelAndView = new ModelAndView(MESSAGE_JSP);
+    public ModelAndView deleteMessage(@RequestParam long id) {
         messageService.deleteById(id);
-        modelAndView.addObject(MYMESSAGES_KEY, messageService.getMessagesByRecipient(recipient));
-        return modelAndView;
+        return new ModelAndView(REDIRECT_MESSAGE);
     }
 }

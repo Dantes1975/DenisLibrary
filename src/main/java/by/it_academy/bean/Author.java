@@ -11,7 +11,8 @@ import java.util.Objects;
 @Entity
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "AUTHOR_ID_SEQ_GEN", sequenceName = "AUTHOR_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AUTHOR_ID_SEQ_GEN")
     private long id;
     @Column(name = "firstname")
     private String name;

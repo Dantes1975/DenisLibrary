@@ -18,7 +18,9 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css" />" >
 </head>
 <body>
-
+<c:if test="${error != null}">
+    <h3 style="color:red;">* ${error}</h3>
+</c:if>
 <div class="limiter">
     <div class="container-login100" style="background-image: url('Start/images/bg-01.jpg');">
         <div class="wrap-login100">

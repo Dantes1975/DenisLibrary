@@ -33,7 +33,7 @@ public class AuthenticateService {
 
     @Transactional(readOnly = true)
     public List<Authenticate> findAll() {
-        return (List<Authenticate>) authenticateRepository.findAll();
+        return (List<Authenticate>) authenticateRepository.getAllAuthenticates();
     }
 
     public void authenticateOff(long id) {
@@ -44,9 +44,6 @@ public class AuthenticateService {
         authenticateRepository.authOn(id);
     }
 
-    public void authenticateBlock(long id) {
-        authenticateRepository.authBlock(id);
-    }
 
     public boolean existByLogin(String login){
         return authenticateRepository.existsByLogin(login);
