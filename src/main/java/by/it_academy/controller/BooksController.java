@@ -2,16 +2,15 @@ package by.it_academy.controller;
 
 
 import by.it_academy.bean.*;
-import by.it_academy.service.*;
+import by.it_academy.service.BookImageService;
+import by.it_academy.service.BookService;
+import by.it_academy.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -80,24 +79,12 @@ public class BooksController {
     @GetMapping(value = "/loadImage/{id}", produces = {MediaType.IMAGE_JPEG_VALUE})
     @ResponseBody
     public byte[] loadImage(@PathVariable int id) {
-        byte[] bytes = new byte[0];
-        try {
-            if (id == 1) {
-                File file = new File(PATH_NAME + "Osn_oper.jpg");
-                bytes = Files.readAllBytes(file.toPath());
-            } else if (id == 2) {
-                File file = new File(PATH_NAME + "Oper_pr.jpg");
-                bytes = Files.readAllBytes(file.toPath());
-            } else if (id == 3) {
-                File file = new File(PATH_NAME + "Antikiller.jpg");
-                bytes = Files.readAllBytes(file.toPath());
-            } else {
-                bytes = bookImageService.getByBookId(id).getBookimage();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if (id >= 1 && id <= 3) {
+            return bookImageService.getMockImage(--id);
         }
-        return bytes;
+
+        return bookImageService.getByBookId(id).getBookimage();
     }
 
     @PostMapping("/takebook")
