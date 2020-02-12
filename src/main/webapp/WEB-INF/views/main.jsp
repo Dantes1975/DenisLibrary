@@ -111,16 +111,16 @@
 <div class="card-header header_container">
     <h3 class="header_title"> Hello ${sessionScope.authenticate.login} </h3>
     <form class="form_container" action="<c:url value="/home"/> " method="get">
-        <input type="submit" class=" btn btn-light" name="action" value="home">
+        <input type="submit" class=" btn btn-light" value="home">
     </form>
     <form class="form_container" action="<c:url value="/message"/> " method="get">
-        <input type="submit" class=" btn btn-light" name="action" value="messages">
+        <input type="submit" class=" btn btn-light" value="messages">
     </form>
     <form class="form_container" action="<c:url value="/userpage"/> " method="get">
-        <input type="submit" class=" btn btn-light" name="action" value="kabinet">
+        <input type="submit" class=" btn btn-light" value="kabinet">
     </form>
     <form class="form_container" action="<c:url value="/logout"/> " method="get">
-        <input type="submit" class=" btn btn-light" name="action" value="logout">
+        <input type="submit" class=" btn btn-light" value="logout">
     </form>
 </div>
 
@@ -148,7 +148,7 @@
                         <td>
                             <form class="form_modified" action="<c:url value="/description"/> " method="post">
                                 <input type="hidden" name="bookid" value="${book.id}">
-                                <input type="submit" class=" btn btn-press" name="action" value="description">
+                                <input type="submit" class=" btn btn-press" value="description">
                             </form>
                         </td>
                         <td>

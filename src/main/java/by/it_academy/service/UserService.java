@@ -13,17 +13,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User save(User user){
+    public User save(User user) {
         return userRepository.save(user);
     }
 
-
-
-    public User getById(long id){
+    public User getById(long id) {
         return userRepository.getById(id);
     }
 
-    public void deleteById(long id){
+    public void deleteById(long id) {
         userRepository.deleteById(id);
     }
 }

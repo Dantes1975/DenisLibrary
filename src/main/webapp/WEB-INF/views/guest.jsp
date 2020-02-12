@@ -111,10 +111,10 @@
 
 <div class="card-header header_container">
     <form class="form_container" action="<c:url value="/login"/> " method="get">
-        <input type="submit" class=" btn btn-light" name="action" value="login">
+        <input type="submit" class=" btn btn-light" value="login">
     </form>
     <form class="form_container" action="<c:url value="/registration"/> " method="get">
-        <input type="submit" class=" btn btn-light" name="action" value="registration">
+        <input type="submit" class=" btn btn-light" value="registration">
     </form>
 </div>
 
@@ -142,7 +142,7 @@
                     <td>
                         <form class="form_modified" action="<c:url value="/description"/> " method="post">
                             <input type="hidden" name="bookid" value="${book.id}">
-                            <input type="submit" class=" btn btn-press" name="action" value="description">
+                            <input type="submit" class=" btn btn-press" value="description">
                         </form>
                     </td>
                 </tr>

@@ -19,10 +19,6 @@ public class AuthenticateService {
         return authenticateRepository.save(authenticate);
     }
 
-    public Authenticate getById(long id){
-        return authenticateRepository.findById(id).orElse(null);
-    }
-
     public Authenticate getByLoginAndPassword(String login, String password) {
         return authenticateRepository.getByLoginAndPassword(login, password);
     }
@@ -45,7 +41,7 @@ public class AuthenticateService {
     }
 
 
-    public boolean existByLogin(String login){
+    public boolean existByLogin(String login) {
         return authenticateRepository.existsByLogin(login);
     }
 }

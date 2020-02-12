@@ -20,20 +20,15 @@ public class BorrowService {
 
     @Transactional(readOnly = true)
     public List<Long> getBooksIdByUserId(long id) {
-        return borrowRepository.getBooksIdByUser(id);
+        return borrowRepository.getBooksIdByBorrow(id);
     }
 
     public void deleteByUser(long id) {
-        borrowRepository.deleteByUser(id);
+        borrowRepository.deleteByBorrow(id);
     }
 
     public void deleteByBook(long id) {
         borrowRepository.deleteByBookId(id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Borrow> findAll() {
-        return (List<Borrow>) borrowRepository.findAll();
     }
 
     @Transactional(readOnly = true)

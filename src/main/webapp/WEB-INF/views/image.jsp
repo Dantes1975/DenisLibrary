@@ -129,16 +129,23 @@
             <table class="table table-bordered">
                 <thead class="thead-light">
                 <tr>
-                    <th>USER</th>
-                    <th>BORROWDATE</th>
-                    <th>RETURNDATE</th>
+                    <th> USER</th>
+                    <th> BORROWDATE</th>
+                    <th> RETURNDATE</th>
+                    <th> BLOCK</th>
                 </tr>
                 </thead>
                 <c:forEach items="${borrows}" var="borrow">
                     <tr>
-                        <td> ${borrow.user} </td>
+                        <td> ${borrow.borrow} </td>
                         <td> ${borrow.borrowDate} </td>
                         <td> ${borrow.returnDate} </td>
+                        <td>
+                            <form class="form_modified" action="<c:url value="/off"/> " method="post">
+                                <input type="hidden" name="id" value="${borrow.borrow}"/>
+                                <input type="submit" class=" btn btn-press" name="action" value="Block">
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>

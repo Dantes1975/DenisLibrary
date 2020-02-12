@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -21,13 +20,13 @@ public class Borrow {
     @OneToOne(fetch = FetchType.LAZY)
     private Book book;
 
-    private long user;
+    private long borrow;
     private Date borrowDate;
     private Date returnDate;
 
-    public Borrow(Book book, long user, Date borrowDate, Date returnDate) {
+    public Borrow(Book book, long borrow, Date borrowDate, Date returnDate) {
         this.book = book;
-        this.user = user;
+        this.borrow = borrow;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
     }
@@ -36,7 +35,7 @@ public class Borrow {
     public String toString() {
         return "Borrow{" +
                 "id=" + id +
-                ", user=" + user +
+                ", user=" + borrow +
                 ", borrowDate=" + borrowDate +
                 ", returnDate=" + returnDate +
                 '}';
