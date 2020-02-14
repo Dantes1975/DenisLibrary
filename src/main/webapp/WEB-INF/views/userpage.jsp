@@ -146,7 +146,12 @@
                     <c:if test="${authntic.id != sessionScope.authenticate.id}">
                         <td> ${authntic.id} </td>
                         <td> ${authntic.login} </td>
-                        <td> ${authntic.profile_enable} </td>
+                        <c:if test="${authntic.profile_enable == 'ON'}">
+                            <td style="background: darkolivegreen"> ${authntic.profile_enable} </td>
+                        </c:if>
+                        <c:if test="${authntic.profile_enable == 'OFF'}">
+                            <td style="background: rosybrown"> ${authntic.profile_enable} </td>
+                        </c:if>
                         <td>
                             <c:if test="${authntic.profile_enable=='ON'}">
                                 <form class="form_modified" action="<c:url value="/off"/> " method="post">
